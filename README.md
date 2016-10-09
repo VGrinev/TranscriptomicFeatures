@@ -1,1 +1,0 @@
-This is an open source project in R programming. The main objective of the project is development of package TranscriptsFeatures for comprehensive structural and functional annotation of full-length transcripts.
