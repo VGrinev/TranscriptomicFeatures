@@ -65,7 +65,7 @@ if (!suppressMessages(require(rtracklayer))){
 }
 ## Loading of the preRNA models as a GRanges object.
 models.hmRNA = import(con = models.hmRNA)
-## Loading of of experimentally detected exon-exon junctions as a GRanges object.
+## Loading of experimentally detected exon-exon junctions as a GRanges object.
 expEEJ = read.table(file = expEEJ.in, sep = "\t", header = TRUE, quote = "\"", as.is = TRUE)
 expEEJ = makeGRangesFromDataFrame(expEEJ, keep.extra.columns = TRUE)
 start(expEEJ) = start(expEEJ) + 1
