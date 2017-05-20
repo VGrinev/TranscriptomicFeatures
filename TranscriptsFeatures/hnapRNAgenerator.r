@@ -1,12 +1,12 @@
 ##############################################################################################################
 ## Generic high-level R function for calculation of hypothetical "non-alternative"                          ##
-## mature RNA based on reference annotations of mature RNAs for gene(-s) of interest.                       ##
+## precursor RNAs based on reference annotations of RNAs for gene(-s) of interest.                          ##
 ## (c) GNU GPL Vasily V. Grinev, 2017. grinev_vv[at]bsu.by                                                  ##
 ##############################################################################################################
 ### Arguments of function:
 ##  hnapRNA.f - path and name of file with main hnapRNA function.
-##  gtf.file - path to folder and name of the file in GTF/GFF format with reference annotations of mature RNAs
-#   for gene(-s) of interest. It is typically Ensembl annotations or similar one.
+##  gtf.file - path to folder and name of the file in GTF/GFF format with reference annotations of RNAs for
+#   gene(-s) of interest. It is typically Ensembl annotations or similar one.
 ##  output.file - path to folder and name of the TXT output file in tab-delimited format.
 ##  src - a character vector with name of source of reference annotations. Default value is "Ensembl".
 ##  cl - an integer argument means number of cores available for parallel processing. Default value is the
