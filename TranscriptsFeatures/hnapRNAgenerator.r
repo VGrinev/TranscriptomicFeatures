@@ -22,8 +22,8 @@ if (!suppressMessages(require(GenomicFeatures))){
     biocLite("GenomicFeatures")
 }
 if (!suppressMessages(require(rtracklayer))){
-	source("http://bioconductor.org/biocLite.R")
-	biocLite("rtracklayer")
+    source("http://bioconductor.org/biocLite.R")
+    biocLite("rtracklayer")
 }
 suppressMessages(require(pbapply))
 suppressMessages(require(parallel))
