@@ -4,7 +4,8 @@
 ## (c) GNU GPL Vasily V. Grinev, 2017. grinev_vv[at]bsu.by                                                  ##
 ##############################################################################################################
 ### Arguments of functions:
-##  models.hmRNA - path to folder and name of the GTF/GFF file with models of hypothetical mature RNAs.
+##  models.hmRNA - path to folder and name of the GTF/GFF file with models of hypothetical "non-alternative"
+#   precursor RNAs.
 ##  expEEJ.in - path to folder and name of the TXT file in tab-delimited format with experimentally detected
 #   exon-exon junctions. This is input data file which should include four mandatory fields:
 #   i) seqnames (name of chromosome or scaffold with prefix "chr");
