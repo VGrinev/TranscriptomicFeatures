@@ -1,6 +1,6 @@
 ##############################################################################################################
 ## A set of high-level R functions for detection of significant open reading frames in nucleotide sequences ##
-## and identification pre-mature translation termination codons.                                            ##
+## and identification of pre-mature translation termination codons.                                         ##
 ## (c) GNU GPL Vasily V. Grinev, 2017. grinev_vv[at]bsu.by                                                  ##
 ##############################################################################################################
 ## In part, this code is based on original ideas of Avril Coghlan (Wellcome Trust Sanger Institute,         ##
@@ -436,7 +436,7 @@ last.exon = unlist(lapply(tr.list,
                                       }else{
                                           last.exon = width(x[1, ])
                                       }
-                                     }
+                                      }
                          )
                   )
 tr.annotated$X4 = last.exon
