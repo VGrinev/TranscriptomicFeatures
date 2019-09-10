@@ -30,6 +30,3 @@ writeXStringSet(x = list.seq,
                 format = "fasta",
                 width = 100)
 }
-GTFtoFASTA(d.work = "D:/Vasily Grinev",
-           in.gtf = "Ensembl release 85, GRCh38.p7, mRNAs.gtf",
-           out.fasta = "Ensembl release 85, GRCh38.p7, mRNAs1.fasta")
