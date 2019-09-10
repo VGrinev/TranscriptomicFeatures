@@ -65,15 +65,5 @@ EEJs = makeGRangesFromDataFrame(df = EEJs, keep.extra.columns = TRUE)
 }
 return(EEJs)
 }
-### A simple example of function use.
-#   source("http://bio.bsu.by/genetics/files/gtftoeejs.r")
-x = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, all transcripts.gtf"
-res = GTFtoEEJs(x = x, with.metadata = TRUE)
-##  Saving final results.
-file.out = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, RUNX1-RUNX1T1, all EEJs from GTF.txt"
-write.table(res,
-            file = file.out,
-            sep = "\t",
-            quote = FALSE,
             col.names = TRUE,
             row.names = FALSE)
