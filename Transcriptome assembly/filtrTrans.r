@@ -114,9 +114,3 @@ if (intrL > 0){
     flush.console()
     export(object = tr, con = paste(d.work, out.gtf, sep = "/"), format = format)
 }
-### A simple example of function use.
-filtrTrans(d.work = "D:/Vasily Grinev",
-           in.gtf = "merged.gtf",
-           isoforms.fpkm = "isoforms.fpkm_tracking",
-           out.gtf = "merged_filtered.gtf",
-           format = "gtf")
