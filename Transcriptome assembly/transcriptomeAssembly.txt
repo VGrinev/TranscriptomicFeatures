@@ -48,7 +48,7 @@ mean(log2(isoforms.fpkm$NC_FPKM[isoforms.fpkm$NC_FPKM >= 1]))
 plot(density(log2(isoforms.fpkm$NC_FPKM[isoforms.fpkm$NC_FPKM >= 1])))
 length(isoforms.fpkm$NC_FPKM[isoforms.fpkm$NC_FPKM >= 1])
 ##  Merge of GTF files with Cuffmerge.
-cuffmerge -p 8 -s /home/hmglab/GVV/Files_FASTA/GRCh38.fa -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -o /home/hmglab/GVV/NSL/Transcriptome /home/hmglab/GVV/assembly_list.txt
+cuffmerge -p 8 -s /home/hmglab/GVV/Files_FASTA/GRCh38.fa -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -o /home/hmglab/GVV/NSL/Transcriptome /home/hmglab/GVV/NSL/Transcriptome/assembly_list.txt
 ##  Inspection of the output files with R.
 #   Loading of required auxiliary R/Bioconductor library rtracklayer. This code was successfully
 #   tested with library version v.1.44.3.
@@ -56,4 +56,4 @@ suppressMessages(library(rtracklayer))
 tr = import(con = "/home/hmglab/GVV/NSL/Transcriptome/merged.gtf", format = "gtf")
 tr
 ##  Analysis of differential expression of transcripts and genes with Cuffdiff.
-cuffdiff -v -FDR 0.05 -p 8 /home/hmglab/GVV/NSL/Transcriptome/merged.gtf \/home/hmglab/GVV/Files_BAM/NC_S1.bam,/home/hmglab/GVV/Files_BAM/NC_S2.bam,/home/hmglab/GVV/Files_BAM/NC_S3.bam \/home/hmglab/GVV/Files_BAM/KAT8_S1.bam,/home/hmglab/GVV/Files_BAM/KAT8_S2.bam,/home/hmglab/GVV/Files_BAM/KAT8_S3.bam -o /home/hmglab/GVV/RR/Transcriptome -L NC,KAT8 -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf
+cuffdiff -v -FDR 0.05 -p 8 /home/hmglab/GVV/NSL/Transcriptome/merged.gtf \/home/hmglab/GVV/Files_BAM/NC_S1.bam,/home/hmglab/GVV/Files_BAM/NC_S2.bam,/home/hmglab/GVV/Files_BAM/NC_S3.bam \/home/hmglab/GVV/Files_BAM/KAT8_S1.bam,/home/hmglab/GVV/Files_BAM/KAT8_S2.bam,/home/hmglab/GVV/Files_BAM/KAT8_S3.bam -o /home/hmglab/GVV/NSL/Transcriptome -L NC,KAT8 -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf
