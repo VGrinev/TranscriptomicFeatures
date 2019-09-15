@@ -39,6 +39,3 @@ names(trans.target) = NULL
 ##  Final GRanges object to be returned.
 return(trans.target)
 }
-### A simple example of function use:
-#   res = transcriptsWithTargetEEJs(listEEJs = "D:/Vasily Grinev/List of diffEEJs.txt",
-#                                   listTranscripts = "D:/Vasily Grinev/transcripts.gtf")
