@@ -99,19 +99,3 @@ enr = enr[enr$FDR.adjusted.p_value < FDR, ]
 ##  Returning of results.
 return(enr)
 }
-### A simple example of function use.
-#   source("http://bio.bsu.by/genetics/files/enrichmenttest2.r")
-#   query.list = "GVV/Query_files.txt"
-#   subject.list = "GVV/Subject_files.txt"
-#   res = enrichmentTest(query = query.list, subject = subject.list)
-query.genes = "D:/Vasily Grinev/The NSL project, direct targets of the KANSL3, filtered.txt"
-subject.genes = "D:/Vasily Grinev/Gene Ontology BP gene sets, update 21 April 2018.txt"
-res = overich.test(query = query.genes, subject = subject.genes, subject.size = 10, FDR = 0.05)
-work.dir = "D:/Vasily Grinev"
-file.output = "The NSL project, direct targets of the KANSL3, GO BP enrichment test.txt"
-write.table(x = res,
-            file = paste(work.dir, file.output, sep = "/"),
-            sep = "\t",
-            quote = FALSE,
-            col.names = TRUE,
-            row.names = FALSE)
