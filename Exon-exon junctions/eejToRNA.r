@@ -76,18 +76,3 @@ coord = cbind(up.coord, down.coord[, 2])
 names(coord) = c("eej_id", "start", "end")
 return(coord)
 }
-### A simple example of function use.
-#   source("http://bio.bsu.by/genetics/files/eejToRNA.r")
-eej.in = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, RUNX1-RUNX1T1, all EEJs, filtered.txt"
-file.fa = "D:/Vasily Grinev/hg38_der8.fa"
-RNA.seq = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, exon 4a started RUNX1-RUNX1T1 mRNA.fasta"
-res = eejToRNA(eej.in = eej.in,
-               bs.genome = FALSE,
-               file.fa = file.fa,
-               RNA = RNA.seq)
-file.out = "RUNX1-RUNX1T1 project, exon 4a started RUNX1-RUNX1T1 mRNA, coordinates of EEJs.txt"
-write.table(res,
-            file = file.out,
-            sep = "\t",
-            quote = FALSE,
-            row.names = FALSE)
