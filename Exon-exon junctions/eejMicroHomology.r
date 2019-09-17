@@ -178,19 +178,4 @@ return(list(exper.sites = exper.sites, rand.sites = rand.sites))
 return(exper.sites)
 }
 }
-### A simple example of function use.
-#   source("http://bio.bsu.by/genetics/files/eejmicrohomology.r")
-eej.in = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, RUNX1-RUNX1T1, NCBI RefSeq EEJs.txt"
-#eej.in = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, RUNX1-RUNX1T1, all EEJs.txt"
-eej.in = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, RUNX1-RUNX1T1, canonical EEJs.txt"
-mer1 = 12
-mer2 = 6
-file.fa = "D:/Vasily Grinev/hg38_der8.fa"
-exc = 10
-res = eejMicroHomology(eej.in = eej.in,
-                       mer1 = mer1,
-                       mer2 = mer2,
-                       bs.genome = FALSE,
-                       file.fa = file.fa,
-                       random = TRUE,
-                       exc = exc)
+                 
