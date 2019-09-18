@@ -29,9 +29,8 @@
 ##  format - format of the output file (typically "gtf" or "gff").
 filtrTrans = function(d.work, in.gtf, unstr = TRUE, difStr = TRUE, canChr = TRUE, oneEx = FALSE,
                       exL = 25, fpkm = 1, isoforms.fpkm, trL = 300, intrL = 50, out.gtf, format){
-##  Loading of required auxiliary libraries.
-#   This code was successfully tested with library rtracklayer v.1.44.3
-#   and library Rsubread v.1.34.6
+##  Loading of required auxiliary library.
+#   This code was successfully tested with library rtracklayer v.1.44.3.
 suppressMessages(library(rtracklayer))
 cat("Required auxiliary library has been loaded...\n")
 flush.console()
