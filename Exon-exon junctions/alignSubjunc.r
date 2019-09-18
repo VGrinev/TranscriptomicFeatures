@@ -50,11 +50,3 @@ s.bam = sortBam(file = paste(paste(d.work, d.bam, sep = "/"), file.bam, sep = ""
                 byQname = FALSE)
 suppressMessages(indexBam(s.bam))
 }
-### A simple example of function use.
-alignSubjunc(d.work = "/home/hmglab/GVV",
-             ref.Genome = "Reference_Genomes/GRCh38/GRCh38",
-             d.fastq = "Files_FASTQ",
-             file.fastq1 = "b1_S1_R1.fastq",
-             file.fastq2 = "b1_S1_R2.fastq",
-             d.bam = "Files_BAM",
-             thr = 8)
