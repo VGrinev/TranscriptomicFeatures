@@ -121,9 +121,3 @@ write.table(x = grEEJs,
             row.names = FALSE)
 return(list(pmEEJs = pmEEJs, grEEJs = grEEJs))
 }
-### A simple example of function use.
-res = matrixEEJs(d.work = "D:/Vasily Grinev",
-                 d.bed = "Files_BED",
-                 f.pmEEJs = "Nascent RNA project, EEJs from SEM cells, primary matrix.txt",
-                 f.genes = "Ensembl release 85, GRCh38.p7, coordinates of genes.txt",
-                 f.grEEJs = "Nascent RNA project, EEJs from SEM cells, genes-related matrix.txt")
