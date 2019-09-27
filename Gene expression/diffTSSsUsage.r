@@ -133,8 +133,3 @@ write.table(difUsage,
 }
 return(list(TSSs = TSSs, difUsage = difUsage))
 }
-### A simple example of function use.
-res = diffTSSsUsage(in.gtf = "D:/Vasily Grinev/THP-1 cells, KANSL3 transcriptome.gtf",
-                    tss.gr = "D:/Vasily Grinev/tss_groups.read_group_tracking",
-                    f.tss = "D:/Vasily Grinev/THP-1 cells, KANSL3 transcriptome, TSSs matrix.txt",
-                    f.difUsage = "D:/Vasily Grinev/THP-1 cells, KANSL3 transcriptome, diffUsageTSSs.txt")
