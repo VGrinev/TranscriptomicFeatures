@@ -101,8 +101,10 @@ mat.FPKM = voom(counts = mat.FPKM,
 ##  Fitting of the linear model to the transformed counts.
 lin_fit = lmFit(object = mat.FPKM, design = design, method = "ls")
 #   Calculation of the contrast matrix.
-contrast.matrix = makeContrasts(cntr = paste(attr(design, "dimnames")[[2]], collapse = " - "),
-                                levels = design)
+KD = attr(design, "dimnames")[[2]][1]
+NC = attr(design, "dimnames")[[2]][2]
+contrast.matrix = makeContrasts(contrasts = "KD - NC",
+                                levels = c("KD", "NC"))
 lin_fit = contrasts.fit(fit = lin_fit, contrasts = contrast.matrix)
 ##  Analysis of the differential usage of TSSs.
 difUsage = diffSplice(fit = lin_fit,
