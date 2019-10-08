@@ -71,10 +71,3 @@ colnames(gene.subsets) = c("id", "gene.subset")
 ##  Returning of results.
 return(gene.subsets)
 }
-### A simple example of function use.
-res = edgeGSEA(d.work = "D:/Vasily Grinev",
-               html.file1 = "gsea_report_for_na_neg_1524849911291.html",
-               html.file2 = "gsea_report_for_na_pos_1524849911291.html",
-               gmt.file = "gene_sets.gmt",
-               rnk.file = "NSL_all_proteins.IDs.rnk",
-               FDR = 0.05)
