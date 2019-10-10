@@ -44,7 +44,3 @@ write.table(ranks,
 }
 return(ranks)
 }
-### A simple example of function use.
-res = rankTSSs(d.work = "D:/Vasily Grinev",
-               in.file = "THP-1 cells, KAT8 transcriptome, TSSs matrix.txt",
-               f.rankTSSs = "THP-1 cells, KAT8 transcriptome, TSSs matrix, with ranks.txt")
