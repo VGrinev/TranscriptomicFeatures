@@ -97,12 +97,12 @@ TSSs = rbind(TSSs, fltr)
 fltr = table(unique(x = cbind(TSSs$strand, TSSs$gene_name))[, 2]) > 1
 fltr = TSSs[TSSs$gene_name %in% attr(x = fltr[fltr == "TRUE"], which = "dimnames")[[1]], ]
 TSSs = TSSs[!TSSs$gene_name %in% fltr$gene_name, ]
-anno = read.table(file = paste(d.work, anno.file, sep = "/"),
-                  sep = "\t",
-                  header = TRUE,
-                  quote = "\"",
-                  as.is = TRUE)
-fltr = fltr[paste(fltr$gene_name, fltr$strand) %in% paste(anno$gene_symbol, anno$strand), ]
+annot = read.table(file = paste(d.work, anno, sep = "/"),
+                   sep = "\t",
+                   header = TRUE,
+                   quote = "\"",
+                   as.is = TRUE)
+fltr = fltr[paste(fltr$gene_name, fltr$strand) %in% paste(annot$gene_symbol, annot$strand), ]
 TSSs = rbind(TSSs, fltr)
 }
 TSSs = TSSs[order(TSSs$gene_name), ]
