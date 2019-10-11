@@ -44,5 +44,5 @@ write.table(TSSs,
             col.names = TRUE,
             row.names = FALSE)
 }
-return(list(difExpr = TSSs))
+return(TSSs)
 }
