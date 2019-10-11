@@ -4,16 +4,19 @@
 ##  (c) GNU GPL Vasily V. Grinev, 2019. grinev_vv[at]bsu.by                                      ##
 ###################################################################################################
 ### Arguments of function:
-##  in.gtf - path to folder and name of the file in GTF/GFF format with assembled transcriptome.
-#   It is typically output file of Cufflinks.
-##  tss.gr - path to folder and name of the file in read_group_tracking format containing summed
-#   expression and counts of transcripts sharing each tss_id in each replicate. It is typically
-#   output file of Cuffdiff.
+##  d.work - path to and name of work directory.
+##  in.gtf - the name of file in GTF/GFF format with assembled transcriptome. It is typically
+#   output file of Cufflinks.
+##  tss.gr - the name of *.read_group_tracking file containing summed expression and counts of
+#   transcripts sharing each tss_id in each replicate. It is typically output file of Cuffdiff.
+##  filtr - a logical argument for filtration against TSSs of genes mapped to different strands and
+#   TSSs mapped to different genes. Default value is FALSE.
+##  anno - the name of TXT file in tab-delimited format with Ensembl-based annotations of genes.
 ##  f.tss - the name of output TXT file in tab-delimited format for storing a FPKM matrix of TSSs.
 #   Default value is NULL.
-##  f.difUsage - the name of output TXT file in tab-delimited format for storing the final results
-#   of differential test. Default value is NULL.
-diffTSSsUsage = function(in.gtf, tss.gr, f.tss = NULL, f.difUsage = NULL){
+##  f.diUs - the name of output TXT file in tab-delimited format for storing the final results of
+#   differential test. Default value is NULL.
+diffTSSsUsage = function(d.work, gtf, tss.gr, filtr = FALSE, anno, f.tss = NULL, f.diUs = NULL){
 ##  Loading of required auxiliary library.
 #   This code was successfully tested with libraries rtracklayer v.1.44.3,
 #   edgeR v.3.26.6 and limma v.3.40.6.
@@ -21,7 +24,7 @@ suppressMessages(require(rtracklayer))
 suppressMessages(require(limma))
 suppressMessages(require(edgeR))
 ##  Loading and sub-setting of input data.
-in.gtf = import(con = in.gtf, format = "gtf")
+in.gtf = import(con = paste(d.work, gtf, sep = "/"), format = "gtf")
 in.gtf = in.gtf[, c("tss_id", "transcript_id", "gene_name")]
 tr.list = makeGRangesListFromDataFrame(df = as.data.frame(x = in.gtf),
                                        split.field = "transcript_id",
@@ -51,7 +54,7 @@ TSSs = cbind(TSSs.str[, 1],
              TSSs.str[, 3])
 colnames(TSSs) = c("tss_id", "gene_name", "seqnames", "start", "end", "strand")
 ##  Development a FPKM matrix of TSSs.
-TSSs.fpkm = read.table(file = tss.gr,
+TSSs.fpkm = read.table(file = paste(d.work, tss.gr, sep = "/"),
                        sep = "\t",
                        header = TRUE,
                        quote = "\"",
@@ -59,6 +62,7 @@ TSSs.fpkm = read.table(file = tss.gr,
 #   A factors for grouping of samples.
 factors = unique(TSSs.fpkm[, c("condition", "replicate")])
 factors = factor(factors[order(factors$condition), ]$condition)
+levels(factors) = c("KD", "NC")
 TSSs.fpkm = lapply(X = split(x = TSSs.fpkm, f = TSSs.fpkm$condition),
                    FUN = function(y){split(x = y, f = y$replicate)})
 TSSs.fpkm = data.frame(cbind(TSSs.fpkm[[1]][[1]][, 1],
@@ -77,9 +81,34 @@ TSSs[, c(4, 5, 7:length(TSSs))] = apply(X = TSSs[, c(4, 5, 7:length(TSSs))],
                                         MARGIN = 2,
                                         FUN = as.numeric)
 TSSs = TSSs[rowSums(TSSs[, 7:ncol(TSSs)]) > 0, ]
+#   Additional filtration against unconventional TSSs.
+if (filtr == "TRUE"){
+fltr = TSSs[gsub(pattern = ".+,.+", replacement = ",", x = TSSs$gene_name) == ",", ]
+TSSs = TSSs[!gsub(pattern = ".+,.+", replacement = ",", x = TSSs$gene_name) == ",", ]
+fltr.list = list()
+for (i in 1:nrow(fltr)){
+     fltr.list[[i]] = suppressWarnings(cbind(fltr[i, ],
+                                             strsplit(x = fltr[i, ]$gene_name, split = ", ")[[1]]))
+}
+fltr = do.call(what = rbind, args = fltr.list)
+fltr$gene_name = as.character(fltr[, ncol(fltr)])
+fltr = fltr[, -ncol(fltr)]
+TSSs = rbind(TSSs, fltr)
+fltr = table(unique(x = cbind(TSSs$strand, TSSs$gene_name))[, 2]) > 1
+fltr = TSSs[TSSs$gene_name %in% attr(x = fltr[fltr == "TRUE"], which = "dimnames")[[1]], ]
+TSSs = TSSs[!TSSs$gene_name %in% fltr$gene_name, ]
+anno = read.table(file = paste(d.work, anno.file, sep = "/"),
+                  sep = "\t",
+                  header = TRUE,
+                  quote = "\"",
+                  as.is = TRUE)
+fltr = fltr[paste(fltr$gene_name, fltr$strand) %in% paste(anno$gene_symbol, anno$strand), ]
+TSSs = rbind(TSSs, fltr)
+}
+TSSs = TSSs[order(TSSs$gene_name), ]
 if (!is.null(f.tss)){
 write.table(TSSs,
-            file = f.tss,
+            file = paste(d.work, f.tss, sep = "/"),
             sep = "\t",
             quote = FALSE,
             col.names = TRUE,
@@ -125,9 +154,10 @@ difUsage = data.frame(cbind(difUsage$genes,
                      stringsAsFactors = FALSE)
 colnames(difUsage) = c("gene_name", "tss_id", "logFC", "p_value", "q_value", "neg_log10_q_value")
 difUsage = difUsage[, c(2, 1, 3:6)]
-if (!is.null(f.difUsage)){
+difUsage = difUsage[order(difUsage$gene_name), ]
+if (!is.null(f.diUs)){
 write.table(difUsage,
-            file = f.difUsage,
+            file = paste(d.work, f.diUs, sep = "/"),
             sep = "\t",
             quote = FALSE,
             col.names = TRUE,
