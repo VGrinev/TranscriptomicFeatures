@@ -8,20 +8,16 @@
 ##  f.rankTSSs - the name of output TXT file in tab-delimited format for storing the final results.
 #   Default value is NULL.
 rankTSSs = function(d.work, in.file, f.rankTSSs = NULL){
-##  Loading, filtering and sub-setting of input data.
-in.file = read.table(file = paste(d.work, in.file, sep = "/"),
+##  Loading and sub-setting of input data.
+in.data = read.table(file = paste(d.work, in.file, sep = "/"),
                      sep = "\t",
                      header = TRUE,
                      quote = "\"",
                      as.is = TRUE)
-d.str = cbind(in.file$strand, in.file$gene_name)
-d.str = table(d.str[!duplicated(x = d.str), ][, 2])
-in.file = in.file[!in.file$gene_name %in% attr(x = d.str[d.str > 1], which = "dimnames")[[1]], ]
-in.file = in.file[!gsub(pattern = ".+,.+", replacement = ",", x = in.file$gene_name) == ",", ]
-in.file = split(x = in.file, f = in.file$gene_name)
+in.data = split(x = in.data, f = in.data$gene_name)
 ##  Calculation of the TSSs ranks.
 ranks = do.call(what = rbind,
-                args = lapply(X = in.file,
+                args = lapply(X = in.data,
                               FUN = function(y){if (unique(x = y$strand) == "+"){
                                                     y = y[order(y$start), ]
                                                     y$tss_rank = c(1:nrow(y))
@@ -30,9 +26,9 @@ ranks = do.call(what = rbind,
                                                     y$tss_rank = c(1:nrow(y))
                                                }
                                                return(y)}))
-ranks = ranks[order(ranks$tss_id), ]
+ranks = ranks[order(ranks$gene_name), ]
 rownames(ranks) = NULL
-ranks = ranks[, c(1, ncol(ranks), 2:ncol(ranks))]
+ranks = ranks[, c(1, ncol(ranks), 2:(ncol(ranks) - 1))]
 ##  Saving of the final results.
 if (!is.null(f.rankTSSs)){
 write.table(ranks,
