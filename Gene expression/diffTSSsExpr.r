@@ -46,9 +46,3 @@ write.table(TSSs,
 }
 return(list(difExpr = TSSs))
 }
-### A simple example of function use.
-res = diffTSSsExpr(d.work = "D:/Vasily Grinev",
-                    in.file = "tss_group_exp.diff",
-                    filtr = TRUE,
-                    anno = "Ensembl release 85, GRCh38.p7, annotations of genes.txt",
-                    f.diExpr = "THP-1 cells, KAT8 transcriptome, diffExprTSSs.txt")
