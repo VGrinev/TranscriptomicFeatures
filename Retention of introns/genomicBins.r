@@ -18,7 +18,7 @@
 ##  f.mapability - the name of file with reference genome mapability data.
 ##  minOverlap - integer giving minimal overlap within the intron for the RNA-Seq reads that
 #   spanned an exon-intron junction. Default value is 5.
-genomicBins = function(d.work, f.sqlite, tRNAs_genes, thr = 1, f.mapability, minOverlap = 5){
+genomicBins = function(d.work, f.sqlite, tRNAs_genes, thr = 1, f.mapability, m.over = 5){
 ##  Loading of required auxiliary libraries.
 #   This code was successfully tested with libraries GenomicFeatures v.1.36.4, data.table v.1.12.2,
 #   and pbapply v.1.4-2.
@@ -221,8 +221,8 @@ mapability = read.table(file = paste(d.work, f.mapability, sep = "/"),
 mapability = makeGRangesFromDataFrame(df = mapability, keep.extra.columns = TRUE)
 #   Calculation of effective length of introns.
 introns.1 = makeGRangesFromDataFrame(df = bins.introns, keep.extra.columns = TRUE)
-start(introns.1) = start(introns.1) + minOverlap - 1
-end(introns.1) = end(introns.1) - minOverlap + 1
+start(introns.1) = start(introns.1) + m.over - 1
+end(introns.1) = end(introns.1) - m.over + 1
 exclGR = disjoin(x = c(mapability, introns.1[, 0]), ignore.strand = TRUE)
 hits = findOverlaps(query = exclGR, subject = introns.1, type = "within", ignore.strand = TRUE)
 exclGR = exclGR[queryHits(hits), ]
