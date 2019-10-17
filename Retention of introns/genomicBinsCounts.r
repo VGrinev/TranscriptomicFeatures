@@ -95,21 +95,3 @@ colnames(counts) = c("exon_id",
 rownames(counts) = NULL
 return(counts)
 }
-### A simple example of function use.
-res = genomicBinsCounts(d.work = "/home/hmglab/GVV",
-                        f.gr = "Ensembl based exonic bins, GRCh38.p7, release 85.txt",
-                        d.bam = "Files_BAM",
-                        f.bam = NULL,
-                        m.over = 1,
-                        stra = 0,
-                        paired = FALSE,
-                        thr = 8,
-                        type = "exonic")
-d.work = "/home/hmglab/GVV"
-f.res = "The NML project, exonic bins, primary matrix of read counts.txt"
-write.table(res,
-            file = paste(d.work, f.res, sep = "/"),
-            sep = "\t",
-            quote = FALSE,
-            col.names = TRUE,
-            row.names = FALSE)
