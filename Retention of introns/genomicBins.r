@@ -4,20 +4,21 @@
 ##  (c) GNU GPL Vasily V. Grinev, 2018-2019. grinev_vv[at]bsu.by                                 ##
 ###################################################################################################
 ### Arguments of function:
-##  d.work - path to and name of work directory.
-##  f.sqlite - the name of SQLite database with reference annotations. It is typically SQLite
-#   version of Ensembl annotations.
-##  tRNAs_genes - the name of TXT file in tab-delimited format with genomic coordinates of the
-#   exons of human tRNAs. This file should include five mandatory fields:
-#   i) gene_id - IDs of genes;
-#   ii) seqnames - the name of chromosome or scaffold with prefix "chr";
-#   iii) start - start genomic coordinate of the exon;
-#   iv) end - end genomic coordinate of the exon;
-#   v) strand - strand information about exon location.
-##  thr - integer giving the number of threads used for running of function. Default value is 1.
+##  d.work       - path to and name of work directory.
+##  f.sqlite     - the name of SQLite database with reference annotations. It is typically SQLite
+#                  version of Ensembl annotations.
+##  tRNAs_genes  - the name of TXT file in tab-delimited format with genomic coordinates of the
+#                  exons of human tRNAs. This file should include five mandatory fields:
+#                  i) gene_id   - IDs of genes;
+#                  ii) seqnames - the name of chromosome or scaffold with prefix "chr";
+#                  iii) start   - start genomic coordinate of the exon;
+#                  iv) end      - end genomic coordinate of the exon;
+#                  v) strand    - strand information about exon location.
+##  thr          - integer giving the number of threads used for running of function.
+#                  Default value is 1.
 ##  f.mapability - the name of file with reference genome mapability data.
-##  m.over - integer giving minimal overlap within the intron for the RNA-Seq reads that
-#   spanned an exon-intron junction. Default value is 5.
+##  m.over       - integer giving minimal overlap within the intron for the RNA-Seq reads that
+#                  spanned an exon-intron junction. Default value is 5.
 genomicBins = function(d.work, f.sqlite, tRNAs_genes, thr = 1, f.mapability, m.over = 5){
 ##  Loading of required auxiliary libraries.
 #   This code was successfully tested with libraries GenomicFeatures v.1.36.4, data.table v.1.12.2,
