@@ -16,7 +16,7 @@
 #   v) strand - strand information about exon location.
 ##  thr - integer giving the number of threads used for running of function. Default value is 1.
 ##  f.mapability - the name of file with reference genome mapability data.
-##  minOverlap - integer giving minimal overlap within the intron for the RNA-Seq reads that
+##  m.over - integer giving minimal overlap within the intron for the RNA-Seq reads that
 #   spanned an exon-intron junction. Default value is 5.
 genomicBins = function(d.work, f.sqlite, tRNAs_genes, thr = 1, f.mapability, m.over = 5){
 ##  Loading of required auxiliary libraries.
