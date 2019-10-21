@@ -15,7 +15,7 @@
 #                 null distributions. Default value is NULL (no any file should be saved).
 ##  groups      - a list of named groups of samples to be analysed.
 ##  thr.prob    - numeric value of probability for quantile-based threshold of intron abundance.
-#                 Default value is 0.97
+#                 Default value is 0.97.
 ##  thr.logFC   - numeric value for fold-change threshold. Default value is 1.
 ##  thr.q.value - numerical threshold value for statistical significance. Default value is 0.01.
 ##  f.RIs       - character string giving the name of TXT file in tab-delimited format for storing
