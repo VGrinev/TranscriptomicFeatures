@@ -123,14 +123,3 @@ write.table(x = res.table,
 ##  Returning of the final object of class data frame.
 return(res.table)
 }
-### A simple example of function use.
-res = lmRIsDifUsage(d.work = "D:/Vasily Grinev",
-                    f1.RIs = "The NML project, limma-based RIs, NC transcriptome.txt",
-                    f2.RIs = "The NML project, limma-based RIs, KANSL3 transcriptome.txt",
-                    f1.counts = "The NML project, exonic bins, primary matrix of read counts.txt",
-                    f2.counts = "The NML project, intronic bins, primary matrix of read counts.txt",
-                    ctrl = c("NC_S1", "NC_S2", "NC_S3"),
-                    exper = c("KANSL3_S1", "KANSL3_S2", "KANSL3_S3"),
-                    f.exrpGenes = "The NSL project, list of expressed genes.txt",
-                    thr.cpm = 1,
-                    f.diffBins = "The NML project, diffSplice-based diffBins, KANSL3 versus NC.txt")
