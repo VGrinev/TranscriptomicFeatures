@@ -161,17 +161,3 @@ if (!is.null(f.RIs)){
 ##  Returning of the final object of class list.
 return(res.list)
 }
-### A simple example of function use.
-res = lmRIs(d.work = "D:/Vasily Grinev",
-            f.counts = "The NML project, intronic bins, primary matrix of read counts.txt",
-            f.exrpGenes = "The NSL project, list of expressed genes.txt",
-            rL = 76,
-            f.null = "The NML project, intronic bins, count matrix with null distributions.txt",
-            groups = list(NC = c("NC_S1", "NC_S2", "NC_S3"),
-                          KANSL2 = c("KANSL2_S1", "KANSL2_S2"),
-                          KANSL3 = c("KANSL3_S1", "KANSL3_S2", "KANSL3_S3"),
-                          KAT8 = c("KAT8_S1", "KAT8_S2", "KAT8_S3")),
-            thr.prob = 0.97,
-            thr.logFC = 1,
-            thr.q.value = 0.01,
-            f.RIs = "The NML project, limma-based RIs")
