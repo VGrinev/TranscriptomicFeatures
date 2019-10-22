@@ -22,7 +22,7 @@
 #                 of final results. Default value is NULL (no any file should be saved).
 lmRIs = function(d.work, f.counts, f.exrpGenes, rL, f.null = NULL, groups,
                  thr.prob = 0.97, thr.logFC = 1, thr.q.value = 0.01, f.RIs = NULL){
-##  Loading of a required auxiliary library.
+##  Loading of a required auxiliary libraries.
 #   This code was successfully tested with the library edgeR v.3.26.6 and library limma v.3.40.6.
 suppressMessages(require(edgeR))
 suppressMessages(require(limma))
