@@ -171,17 +171,3 @@ unlink(x = c(f.counts, paste(d.work, "flattened.gtf", sep = "/")))
 ##  Returning of the final object of class data frame.
 return(res.table)
 }
-### A simple example of function use.
-res = DEXSeqRIsDifUsage(d.work = "D:/Vasily Grinev",
-                        f1.RIs = "The NML project, DESeq2-based RIs, NC transcriptome.txt",
-#                        f2.RIs = "The NML project, DESeq2-based RIs, KAT8 transcriptome.txt",
-                        f2.RIs = "The NML project, DESeq2-based RIs, KANSL2 transcriptome.txt",
-                        f1.counts = "The NML project, exonic bins, primary matrix of read counts.txt",
-                        f2.counts = "The NML project, intronic bins, primary matrix of read counts.txt",
-                        ctrl = c("NC_S1", "NC_S2", "NC_S3"),
-#                        exper = c("KAT8_S1", "KAT8_S2", "KAT8_S3"),
-                        exper = c("KANSL2_S1", "KANSL2_S2"),
-                        f.exrpGenes = "The NSL project, list of expressed genes.txt",
-                        thr.fpm = 1,
-#                        f.diffBins = "The NML project, DEXSeq-based diffBins, KAT8 versus NC.txt")
-                        f.diffBins = "The NML project, DEXSeq-based diffBins, KANSL2 versus NC.txt")
