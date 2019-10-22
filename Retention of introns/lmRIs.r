@@ -41,7 +41,7 @@ exrpGenes = read.table(file = paste(d.work, f.exrpGenes, sep = "/"),
                        as.is = TRUE)$gene_id
 counts = counts[counts$gene_id %in% exrpGenes, ]
 #   Filtering against to short effective length of introns.
-counts = counts[counts$effective_length >= (rL + 1), ]
+counts = counts[counts$effective_length >= rL, ]
 #   Filtering against one-intron genes.
 counts = counts[counts$gene_id %in%
                         attr((table(counts$gene_id) == 1)[(table(counts$gene_id) == 1) == "FALSE"],
