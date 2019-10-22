@@ -1,7 +1,7 @@
 ###################################################################################################
 ##  A complete R-wrap for identification                                                         ##
 ##  of retained introns in RNA-Seq data with the edgeR and limma packages.                       ##
-##  (c) GNU GPL Vasily V. Grinev, 2017-2019. grinev_vv[at]bsu.by                                 ##
+##  (c) GNU GPL Vasily V. Grinev, 2018-2019. grinev_vv[at]bsu.by                                 ##
 ###################################################################################################
 ### Arguments of function:
 ##  d.work      - character string giving the path to and name of work directory.
