@@ -1,5 +1,5 @@
 ###################################################################################################
-##  A complete R-wrap for identification of differential retained introns                        ##
+##  A complete R-wrap for identification of differentially retained introns                      ##
 ##  using functionality of the edgeR and limma packages.                                         ##
 ##  (c) GNU GPL Vasily V. Grinev, 2018-2019. grinev_vv[at]bsu.by                                 ##
 ###################################################################################################
