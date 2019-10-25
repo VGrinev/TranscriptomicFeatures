@@ -25,7 +25,7 @@
 #                 of final results. Default value is NULL (no any file should be saved).
 lmRIsDifUsage = function(d.work, f1.RIs, f2.RIs, f1.counts, f2.counts, ctrl, exper,
                          f.exrpGenes, thr.cpm = 1, f.diffBins = NULL){
-##  Loading of a required auxiliary libraries.
+##  Loading of required auxiliary libraries.
 #   This code was successfully tested with the library edgeR v.3.26.6 and library limma v.3.40.6.
 suppressMessages(require(edgeR))
 suppressMessages(require(limma))
