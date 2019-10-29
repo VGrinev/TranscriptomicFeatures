@@ -1,6 +1,6 @@
 ###################################################################################################
 ##  High-level R function for identification of cryptic intragenic transcription initiation      ##
-##  based on RNA-seq data.                                                                       ##
+##  based on RNA-Seq data.                                                                       ##
 ##  (c) GNU GPL Vasily V. Grinev, 2019. grinev_vv[at]bsu.by                                      ##
 ###################################################################################################
 ### Arguments of function:
