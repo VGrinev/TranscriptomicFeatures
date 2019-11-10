@@ -12,28 +12,19 @@
 ##  d.bam       - character string giving the name of BAM directory.
 ##  f.input     - character string giving the name of input BAM file with reads to be filtered.
 ##  f.index     - character string giving the name of BAM index file.
-##  f.seqinfo   - character string giving the name of TXT file in tab-delimited format containing
-#                 information on names and lengths of all reference sequences. This file should
-#                 include two mandatory fields:
-#                 i) seqnames - the name of chromosome or scaffold;
-#                 ii) length of sequence.  
 ##  user.qnames - character string giving the name of a TXT file containing user provided list of
 #                 qnames with bad CIGAR strings. NULL by default.
 ##  f.dest      - character string giving the name of BAM file to store filtered reads.
-filtrBadCIGAR = function(d.work, d.bam, f.input, f.index, f.seqinfo, user.qnames = NULL, f.dest){
+filtrBadCIGAR = function(d.work, d.bam, f.input, f.index, user.qnames = NULL, f.dest){
 ##  Loading of required auxiliary library.
 #   This code was successfully tested with library Rsamtools v.2.0.0.
 suppressMessages(require(Rsamtools))
 ##  Creation a reference to a BAM file.
 bam = BamFile(file = paste(paste(d.work, d.bam, sep = "/"), f.input, sep = "/"),
               index = paste(paste(d.work, d.bam, sep = "/"), f.index, sep = "/"))
-##  Loading of information about reference sequences as a GRanges object.
-gr = read.table(file = paste(d.work, f.seqinfo, sep = "/"),
-                sep = "\t",
-                header = TRUE,
-                quote = "\"",
-                as.is = TRUE)
-gr = GRanges(seqnames = gr$seqnames, ranges = IRanges(start = 1, end = gr$length))
+##  Extraction of information about reference sequences as a GRanges object.
+gr = cbind(seqinfo(bam)@seqnames, seqinfo(bam)@seqlengths)
+gr = GRanges(seqnames = gr[, 1], ranges = IRanges(start = 1, end = as.numeric(gr[, 2])))
 ##  Creation a list of qnames with bad CIGAR strings.
 qnames = list()
 for (i in 1:length(gr)){
