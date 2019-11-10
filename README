@@ -1,3 +1,5 @@
 TranscriptsFeatures.
 
 This is an open source project in R programming. The main objective of the project is development of package transcriptomeFeatures for comprehensive structural and functional annotation of the transcriptome of human cells.
+Please cite us if you used the above codes in your publications:
+Radzisheuskaya A., Shliaha P. V., Grinev V. V., Lorenzini E., Kovalchuk S., Shlyueva D., Gorshkov V., Jensen O. N., Helin K. PRMT5 methylome profiling uncovers a direct link to splicing regulation in human acute myeloid leukemia. // Nature Structural and Molecular Biology. – 2019 Oct 14. DOI: 10.1038/s41594-019-0313-z [Epub ahead of print].
