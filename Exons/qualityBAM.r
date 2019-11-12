@@ -17,5 +17,5 @@ res = filtrBadCIGAR(d.work = "D:/Software/QoRTs",
                     f.index = "NC_S1.bam.bai",
                     mappedL = FALSE,
                     maxReadL = 76,
-                    user.qnames = NULL,
+                    user.qnames = "qnames.txt",
                     f.dest = "NC_S1_filtered.bam")
