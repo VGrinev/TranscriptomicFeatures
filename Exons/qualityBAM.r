@@ -13,7 +13,9 @@ java -jar D:/Software/Picard/picard.jar ValidateSamFile I=D:/Software/QoRTs/BAM_
 source("D:/Software/R codes/filtrBadCIGAR.r")
 res = filtrBadCIGAR(d.work = "D:/Software/QoRTs",
                     d.bam = "Files_BAM",
-                    f.input = "KAT8_S3.bam",
-                    f.index = "KAT8_S3.bam.bai",
+                    f.input = "NC_S1.bam",
+                    f.index = "NC_S1.bam.bai",
+                    mappedL = FALSE,
+                    maxReadL = 76,
                     user.qnames = NULL,
-                    f.dest = "KAT8_S3_filtered.bam")
+                    f.dest = "NC_S1_filtered.bam")
