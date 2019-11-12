@@ -66,7 +66,7 @@ filtr = FilterRules(list(qName = function(x){!x$qname %in% qnames}))
 filterBam(file = paste(paste(d.work, d.bam, sep = "/"), f.input, sep = "/"),
           index = paste(paste(d.work, d.bam, sep = "/"), f.index, sep = "/"),
           destination = paste(paste(d.work, d.bam, sep = "/"), f.dest, sep = "/"),
-          indexDestination = TRUE,
+          indexDestination = FALSE,
           filter = filtr,
           param = ScanBamParam(what = "qname"))
 }
