@@ -53,7 +53,7 @@ qnames[[i]] = c(name$qname[gsub(".+[0-9][a-zA-Z]+0M.+", "0M", name$cigar) == "0M
 }
 qnames = unique(x = unlist(x = qnames[lengths(qnames) > 0]))
 if (!is.null(user.qnames)){ 
-    u.qnames = read.table(file = user.qnames,
+    u.qnames = read.table(file = paste(d.work, user.qnames, sep = "/"),
                           sep = "\t",
                           header = TRUE,
                           quote = "\"",
