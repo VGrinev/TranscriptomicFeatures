@@ -12,10 +12,15 @@
 ##  d.bam       - character string giving the name of BAM directory.
 ##  f.input     - character string giving the name of input BAM file with reads to be filtered.
 ##  f.index     - character string giving the name of BAM index file.
+##  mappedL     - a logical argument indicating whether to use the mapped length
+#                 to calculate the end of read. Default value is FALSE.
+##  maxReadL    - integer value indicating the maximum read length in the RNA-Seq library.
+#                 Default value is 100.
 ##  user.qnames - character string giving the name of a TXT file containing user provided list of
 #                 qnames with bad CIGAR strings. NULL by default.
 ##  f.dest      - character string giving the name of BAM file to store filtered reads.
-filtrBadCIGAR = function(d.work, d.bam, f.input, f.index, user.qnames = NULL, f.dest){
+filtrBadCIGAR = function(d.work, d.bam, f.input, f.index,
+                         mappedL = FALSE, maxReadL = 100, user.qnames = NULL, f.dest){
 ##  Loading of required auxiliary library.
 #   This code was successfully tested with library Rsamtools v.2.0.0.
 suppressMessages(require(Rsamtools))
@@ -37,10 +42,15 @@ m = strsplit(x = sub("[+]$", "", gsub("[0-9]+[A-Z]", "", gsub("M", "+", name$cig
 #   Collection of qnames for which CIGAR op has zero length.
 qnames[[i]] = c(name$qname[gsub(".+[0-9][a-zA-Z]+0M.+", "0M", name$cigar) == "0M"],
 #   Collection of qnames for which CIGAR M operator maps off end of reference.
+    if (mappedL == "TRUE"){
                 name$qname[name$pos +
                            unlist(x = lapply(X = m,
                                              FUN = function(z){sum(as.numeric(x = z))})) -
-                           1 > width(gr[i])])}
+                           1 > width(gr[i])]
+    }else{
+                name$qname[name$pos + maxReadL - 1 > width(gr[i])]
+    })
+}
 qnames = unique(x = unlist(x = qnames[lengths(qnames) > 0]))
 if (!is.null(user.qnames)){ 
     u.qnames = read.table(file = user.qnames,
@@ -60,4 +70,5 @@ filterBam(file = paste(paste(d.work, d.bam, sep = "/"), f.input, sep = "/"),
           filter = filtr,
           param = ScanBamParam(what = "qname"))
 }
+return(qnames)
 }
