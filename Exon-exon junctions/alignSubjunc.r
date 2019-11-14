@@ -30,7 +30,7 @@ if (is.null(file.fastq2) == FALSE){
 file.fastq2 = paste(paste(d.work, d.fastq, sep = "/"), file.fastq2, sep = "/")
 }
 ##  Assignment the name of output BAM file.
-file.bam = sub("fast.+", "bam", sub(paste(d.work, d.fastq, sep = "/"), "", file.fastq2))
+file.bam = sub("fast.+", "bam", sub(paste(d.work, d.fastq, sep = "/"), "", file.fastq1))
 ##  Alignment of short RNA-Seq reads against reference genome.
 align = subjunc(index = ref.Genome,
                 readfile1 = file.fastq1,
