@@ -17,9 +17,9 @@ java -Xmx7G -jar D:/Software/QoRTs/QoRTs.jar QC \
                  --verbose \
                  --noGzipOutput \
                  --runFunctions writeKnownSplices,writeNovelSplices,writeSpliceExon \
-                 D:/Software/QoRTs/Files_BAM/NC_S2.bam \
+                 D:/Software/QoRTs/Files_BAM/sample1.bam \
                  D:/Software/QoRTs/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf \
-                 D:/Software/QoRTs/Files_COUNTS/NC_S2/
+                 D:/Software/QoRTs/Files_COUNTS/sample1/
 ##  Generation a special flat GFF file and a new set of JunctionSeq-formatted count files
 #   containing all exons, annotated splice junctions
 #   and passed-filter novel splice junctions (via CMD shell).
@@ -54,7 +54,7 @@ jscs = runJunctionSeqAnalyses(sample.files = f.counts,
                               verbose = TRUE)
 ##  Generation of output data files.
 writeCompleteResults(jscs = jscs,
-                     outfile.prefix = "KAT8_",
+                     outfile.prefix = "KD_",
                      gzip.output = FALSE,
                      FDR.threshold = 0.05,
                      save.allGenes = TRUE,
