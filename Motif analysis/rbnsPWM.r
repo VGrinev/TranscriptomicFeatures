@@ -131,96 +131,135 @@ for (k in 1:length(fndrs)){
                    list.align[[l]] = rbind(c(fndrs[[k]], "", ""), c("", "", sub.set[[l]]))
          }
     }
+     if (length(list.align) == 0){
+         LIST.ALIGNS[[k]] = fndrs[[k]]
+    }else{
      LIST.ALIGNS[[k]] = list.align
+    }
 }
 ALIGNS = list()
 for (m in 1:length(LIST.ALIGNS)){
      align = LIST.ALIGNS[[m]]
      align = align[lapply(X = align, FUN = length) > 0]
-     if(length(align) == 1){
-        full.mat = align[[1]]
+     if (class(align) == "character"){
+         full.mat = align
+    }else{
+          if(length(align) == 1){
+             full.mat = align[[1]]
+         }
+          if(length(align) > 1){
+             full.mat = matrix(ncol = 9, nrow = length(align) + 1, "")
+             full.mat[1, 3:7] = align[[1]][1, ][align[[1]][1, ] != ""]
+             for (n in 1:length(align)){
+                  if (ncol(align[[n]]) == 5){
+                      full.mat[n + 1, 3:7] = align[[n]][2, ]
+                 }
+                  if (ncol(align[[n]]) == 6 & align[[n]][1, 1] == ""){
+                      full.mat[n + 1, 2:6] = align[[n]][2, ][align[[n]][2, ] != ""]
+                 }
+                  if (ncol(align[[n]]) == 6 & align[[n]][1, ncol(align[[n]])] == ""){
+                      full.mat[n + 1, 4:8] = align[[n]][2, ][align[[n]][2, ] != ""]
+                 }
+                  if (ncol(align[[n]]) == 7 & align[[n]][1, 1] == ""){
+                      full.mat[n + 1, 1:5] = align[[n]][2, ][align[[n]][2, ] != ""]
+                 }
+                  if (ncol(align[[n]]) == 7 & align[[n]][1, ncol(align[[n]])] == ""){
+                      full.mat[n + 1, 5:9] = align[[n]][2, ][align[[n]][2, ] != ""]
+                 }
+            }
+         }
     }
-     if(length(align) > 1){
-        full.mat = matrix(ncol = 9, nrow = length(align) + 1, "")
-        full.mat[1, 3:7] = align[[1]][1, ][align[[1]][1, ] != ""]
-        for (n in 1:length(align)){
-             if (ncol(align[[n]]) == 5){
-                 full.mat[n + 1, 3:7] = align[[n]][2, ]
-            }
-             if (ncol(align[[n]]) == 6 & align[[n]][1, 1] == ""){
-                 full.mat[n + 1, 2:6] = align[[n]][2, ][align[[n]][2, ] != ""]
-            }
-             if (ncol(align[[n]]) == 6 & align[[n]][1, ncol(align[[n]])] == ""){
-                 full.mat[n + 1, 4:8] = align[[n]][2, ][align[[n]][2, ] != ""]
-            }
-             if (ncol(align[[n]]) == 7 & align[[n]][1, 1] == ""){
-                 full.mat[n + 1, 1:5] = align[[n]][2, ][align[[n]][2, ] != ""]
-            }
-             if (ncol(align[[n]]) == 7 & align[[n]][1, ncol(align[[n]])] == ""){
-                 full.mat[n + 1, 5:9] = align[[n]][2, ][align[[n]][2, ] != ""]
-            }
-       }
+     if (class(full.mat) == "character"){
+         ALIGNS[[m]] = full.mat
+    }else{
+         ALIGNS[[m]] = full.mat[, colSums(full.mat != "") != 0]
     }
-     ALIGNS[[m]] = full.mat[, colSums(full.mat != "") != 0]
 }
 ##  Assigning weights to each element of the matrix.
 ALIGNS = lapply(X = ALIGNS,
-                FUN = function(x){cbind(x,
-                                        apply(X = x,
-                                              MARGIN = 1,
-                                              FUN = function(y){input[paste(y,
-                                                                            collapse = "") ==
-                                                                            input[, 1], 2]}))})
-ALIGNS = lapply(X = ALIGNS, FUN = function(x){cbind(x, x[1, ncol(x)])})
-mers = lapply(X = ALIGNS,
-              FUN = function(x){t(apply(X = x,
-                                        MARGIN = 1,
-                                        FUN = function(y){y = cbind(paste(y[1:(length(y) - 2)],
-                                                                          collapse = ""),
-                                                                    y[length(y)])}))})
-mers = do.call(what = rbind, args = mers)
-mers = aggregate(x = as.numeric(mers[, 2]), by = list(mers[, 1]), FUN = sum)
+                FUN = function(x){if (class(x) == "character"){
+                                      c(x, input[paste(x, collapse = "") == input[, 1], 2])
+                                 }else{
+                                       cbind(x,
+                                             apply(X = x,
+                                                   MARGIN = 1,
+                                                   FUN = function(y){input[paste(y,
+                                                                                 collapse = "") ==
+                                                                           input[, 1], 2]}))}})
+ALIGNS = lapply(X = ALIGNS, FUN = function(x){if (class(x) == "matrix"){
+                                                  cbind(x, x[1, ncol(x)])
+                                             }else{
+                                                  return(x)
+                                             }})
+mer = lapply(X = ALIGNS,
+             FUN = function(x){if (class(x) == "character"){
+                                   c(paste(x[1:(length(x) - 1)], collapse = ""), x[length(x)])
+                              }else{
+                                    t(apply(X = x,
+                                            MARGIN = 1,
+                                            FUN = function(y){y = cbind(paste(y[1:(length(y) - 2)],
+                                                                              collapse = ""),
+                                                                        y[length(y)])}))}})
+mer = do.call(what = rbind, args = mer)
+mer = aggregate(x = as.numeric(mer[, 2]), by = list(mer[, 1]), FUN = sum)
 ALIGNS = lapply(X = ALIGNS,
-                FUN = function(x){cbind(x[, -ncol(x)],
-                                        apply(X = x,
-                                              MARGIN = 1,
-                                              FUN = function(y){y[length(y)] =
-                                                                mers[paste(y[1:(length(y) - 2)],
-                                                                           collapse = "") ==
-                                                                     mers[, 1], 2]}))})
+                FUN = function(x){if (class(x) == "character"){
+                                      return(x)
+                                 }else{
+                                      cbind(x[, -ncol(x)],
+                                            apply(X = x,
+                                                  MARGIN = 1,
+                                                  FUN = function(y){y[length(y)] =
+                                                                    mer[paste(y[1:(length(y) - 2)],
+                                                                              collapse = "") ==
+                                                                    mer[, 1], 2]}))}})
 ALIGNS = lapply(X = ALIGNS,
-                FUN = function(x){x[, ncol(x) - 1] =
-                                  round(as.numeric(x[, ncol(x) - 1]) *
-                                        as.numeric(x[1, ncol(x)])/as.numeric(x[, ncol(x)]),
-                                        digits = 3)
-                                  x = x[, -ncol(x)]
-                                  return(x)})
+                FUN = function(x){if (class(x) == "character"){
+                                      return(x)
+                                 }else{
+                                      x[, ncol(x) - 1] =
+                                      round(as.numeric(x[, ncol(x) - 1]) *
+                                            as.numeric(x[1, ncol(x)])/as.numeric(x[, ncol(x)]),
+                                            digits = 3)
+                                      x = x[, -ncol(x)]
+                                      return(x)}})
 Pr.alignments = ALIGNS
 #   Trimming of leading and/or lagging positions having more than 75% offset weight.
 for (o in 1:length(ALIGNS)){
-     offset.weight = double()
-     for (p in 1:(ncol(ALIGNS[[o]]) - 1)){
-          offset.weight[[p]] = sum(as.numeric(ALIGNS[[o]][ALIGNS[[o]][, p] ==
-                                   "", ncol(ALIGNS[[o]])]))/
-                               sum(as.numeric(ALIGNS[[o]][, ncol(ALIGNS[[o]])]))
+     if (class(ALIGNS[[o]]) == "matrix"){
+         offset.weight = double()
+         for (p in 1:(ncol(ALIGNS[[o]]) - 1)){
+              offset.weight[[p]] = sum(as.numeric(ALIGNS[[o]][ALIGNS[[o]][, p] ==
+                                       "", ncol(ALIGNS[[o]])]))/
+                                   sum(as.numeric(ALIGNS[[o]][, ncol(ALIGNS[[o]])]))
+        }
+         offset.weight = c(offset.weight > 0.75, "FALSE")
+         ALIGNS[[o]] = cbind(ALIGNS[[o]][, offset.weight == "FALSE"])
     }
-     offset.weight = c(offset.weight > 0.75, "FALSE")
-     ALIGNS[[o]] = cbind(ALIGNS[[o]][, offset.weight == "FALSE"])
 }
 #  Calculation of pseudocount adjusted positional probability matrices.
 PPMs = list()
 for (s in 1:length(ALIGNS)){
-     mat = matrix(ncol = ncol(ALIGNS[[s]]) - 1, nrow = 4)
-     rownames(mat) = c("A", "C", "G", "T")
-     for (u in 1:ncol(mat)){
-          mat[1, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "A", ncol(ALIGNS[[s]])]))
-          mat[2, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "C", ncol(ALIGNS[[s]])]))
-          mat[3, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "G", ncol(ALIGNS[[s]])]))
-          mat[4, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "T", ncol(ALIGNS[[s]])]))
-   }
-    mat[mat == 0] = min(mat[mat > 0]) * 0.001
-    mat = round(x = t(t(mat)/apply(X = mat, MARGIN = 2, FUN = sum)), digits = 10)
-    PPMs[[s]] = mat
+     if (class(ALIGNS[[s]]) == "character"){
+         mat = matrix(data = 0L, ncol = length(ALIGNS[[s]]) - 1, nrow = 4)
+         rownames(mat) = c("A", "C", "G", "T")
+         for (u in 1:4){
+              mat[u, rownames(mat)[u] == ALIGNS[[s]][1:(length(ALIGNS[[s]]) - 1)]] =
+                                         as.numeric(ALIGNS[[s]][length(ALIGNS[[s]])])
+        }
+    }else{
+         mat = matrix(ncol = ncol(ALIGNS[[s]]) - 1, nrow = 4)
+         rownames(mat) = c("A", "C", "G", "T")
+         for (u in 1:ncol(mat)){
+              mat[1, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "A", ncol(ALIGNS[[s]])]))
+              mat[2, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "C", ncol(ALIGNS[[s]])]))
+              mat[3, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "G", ncol(ALIGNS[[s]])]))
+              mat[4, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "T", ncol(ALIGNS[[s]])]))
+        }
+    }
+     mat[mat == 0] = min(mat[mat > 0]) * 0.001
+     mat = round(x = t(t(mat)/apply(X = mat, MARGIN = 2, FUN = sum)), digits = 10)
+     PPMs[[s]] = mat
 }
 #   Calculation of positional weight matrices.
 PWMs = lapply(X = PPMs, FUN = function(x, y){log2(x/(y = bg.freq))})
