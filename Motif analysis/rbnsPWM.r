@@ -237,8 +237,8 @@ for (o in 1:length(ALIGNS)){
          ALIGNS[[o]] = cbind(ALIGNS[[o]][, offset.weight == "FALSE"])
     }
 }
-#  Calculation of pseudocount adjusted positional probability matrices.
-PPMs = list()
+#  Calculation of positional count matrices. Here the enrichment scores are used as counts.
+PCMs = list()
 for (s in 1:length(ALIGNS)){
      if (class(ALIGNS[[s]]) == "character"){
          mat = matrix(data = 0L, ncol = length(ALIGNS[[s]]) - 1, nrow = 4)
@@ -257,22 +257,30 @@ for (s in 1:length(ALIGNS)){
               mat[4, u] = sum(as.numeric(ALIGNS[[s]][ALIGNS[[s]][, u] == "T", ncol(ALIGNS[[s]])]))
         }
     }
-     mat[mat == 0] = min(mat[mat > 0]) * 0.001
-     mat = round(x = t(t(mat)/apply(X = mat, MARGIN = 2, FUN = sum)), digits = 10)
-     PPMs[[s]] = mat
+     PCMs[[s]] = mat
 }
+#  Calculation of pseudocount adjusted positional probability matrices.
+PPMs = lapply(X = PCMs, FUN = function(y){y[y == 0] = min(y[y > 0]) * 0.001
+                                          y = round(x = t(t(y)/apply(X = y,
+                                                                     MARGIN = 2,
+                                                                     FUN = sum)),
+                                                    digits = 10)})
 #   Calculation of positional weight matrices.
 PWMs = lapply(X = PPMs, FUN = function(x, y){log2(x/(y = bg.freq))})
 #   Calculation of information content profiles.
-ICPs = lapply(X = PPMs,
-              FUN = function(x){2 + apply(X = x, MARGIN = 2, FUN = function(y){sum(y * log2(y))})})
+ICPs = lapply(X = PCMs,
+              FUN = function(x){x = t(t(x)/apply(X = x, MARGIN = 2, FUN = sum))
+                                2 + apply(X = x, MARGIN = 2, FUN = function(y){y = y[y > 0]
+                                                                               sum(y * log2(y))})})
 #   Calculation of information content matrices.
 ICMs = list()
-for (u in 1:length(PPMs)){
-     ICMs[[u]] = t(ICPs[[u]] * t(PPMs[[u]]))
+for (u in 1:length(PCMs)){
+     x = t(t(PCMs[[u]])/apply(X = PCMs[[u]], MARGIN = 2, FUN = sum))
+     ICMs[[u]] = t(ICPs[[u]] * t(x))
 }
 ##  Returning the final object.
 return(list("Primary alignments" = Pr.alignments,
+            PCMs = PCMs,
             PPMs = PPMs,
             PWMs = PWMs,
             ICPs = ICPs,
