@@ -1,5 +1,5 @@
 ###################################################################################################
-##  A complete R-wrap for calculation of splicing factors positional weight matrices             ##
+##  A complete R-wrap for calculation of positional weight matrices for RNA binding proteins     ##
 ##  using RNA Bind-n-Seq data.                                                                   ##
 ##  (c) GNU GPL Vasily V. Grinev, 2019. grinev_vv[at]bsu.by                                      ##
 ###################################################################################################
