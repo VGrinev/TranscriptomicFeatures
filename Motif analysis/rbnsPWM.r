@@ -259,8 +259,8 @@ for (s in 1:length(ALIGNS)){
     }
      PCMs[[s]] = mat
 }
-#  Calculation of pseudocount adjusted positional probability matrices.
-PPMs = lapply(X = PCMs, FUN = function(y){y[y == 0] = min(y[y > 0]) * 0.001
+#   Calculation of pseudocount adjusted positional probability matrices.
+PPMs = lapply(X = PCMs, FUN = function(y){y = y + (min(y[y > 0]) * 0.001)
                                           y = round(x = t(t(y)/apply(X = y,
                                                                      MARGIN = 2,
                                                                      FUN = sum)),
