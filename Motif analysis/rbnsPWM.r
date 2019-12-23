@@ -237,7 +237,7 @@ for (o in 1:length(ALIGNS)){
          ALIGNS[[o]] = cbind(ALIGNS[[o]][, offset.weight == "FALSE"])
     }
 }
-#  Calculation of positional count matrices. Here the enrichment scores are used as counts.
+#   Calculation of positional count matrices. Here the enrichment scores are used as counts.
 PCMs = list()
 for (s in 1:length(ALIGNS)){
      if (class(ALIGNS[[s]]) == "character"){
