@@ -1,5 +1,5 @@
 ###################################################################################################
-##  High-level R function for positional weight matix based identification                       ##
+##  High-level R function for positional weight matix-based identification                       ##
 ##  of splicing factors binding sites surrounding exon-exon junctions.                           ##
 ##  (c) GNU GPL Vasily V. Grinev, 2017-2019. grinev_vv[at]bsu.by                                 ##
 ###################################################################################################
