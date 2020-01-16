@@ -24,7 +24,6 @@ ref$exon_number = as.numeric(ref$exon_number)
 one.exon.trans = table(ref$transcript_id)
 one.exon.trans = attr(one.exon.trans[one.exon.trans == 1], "dimnames")[[1]]
 ref = ref[!ref$transcript_id %in% one.exon.trans, ]
-ref = ref[ref$gene_id == "ENSG00000235549", ]
 ### Development a list of genes.
 list.genes = makeGRangesListFromDataFrame(df = as.data.frame(ref),
                                           split.field = "gene_id",
