@@ -10,7 +10,7 @@
 #   format - format of file with reference annotations. Default value is "gtf".
 ##  src    - a character vector with name of source of reference annotations.
 #            Default value is "Ensembl".
-hnapRNA = function(d.work, f.ref, format = "gtf", src = "Ensembl"){
+hnapRNA.models = function(d.work, f.ref, format = "gtf", src = "Ensembl"){
 ### Loading of required auxiliary libraries.
 #   This code was successfully tested with libraries GenomicFeatures v.1.36.4
 #   and rtracklayer v.1.44.3.
