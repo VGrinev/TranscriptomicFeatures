@@ -1,7 +1,7 @@
 ###################################################################################################
 ##  High-level R function for calculation of hypothetical "non-alternative"                      ##
 ##  precursor RNA based on experimentally determined expression level of exons.                  ##
-##  (c) GNU GPL Vasily V. Grinev, 2018-2019. grinev_vv[at]bsu.by                                 ##
+##  (c) GNU GPL Vasily V. Grinev, 2018-2020. grinev_vv[at]bsu.by                                 ##
 ###################################################################################################
 ### It is experimental function without a guarantee of proper operation.
 ### Arguments of function:
