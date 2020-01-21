@@ -27,7 +27,7 @@ ref = ref[!ref$transcript_id %in% one.exon.trans, ]
 ### Development a list of genes.
 list.genes = makeGRangesListFromDataFrame(df = as.data.frame(ref),
                                           split.field = "gene_id",
-                                          keep.extra.columns = TRUE)#[1:10]
+                                          keep.extra.columns = TRUE)
 ### Modelling of each individual gene.
 model = lapply(X = list.genes, FUN = function(x){
 ##  Development a list of transcripts.
@@ -37,23 +37,28 @@ list.trans = makeGRangesListFromDataFrame(df = as.data.frame(x),
 if (length(list.trans) > 1){
 ##  Retrieving the genomic coordinates of all unique introns.
 intr.all = sort(x = unique(x = unlist(x = setdiff(x = range(list.trans), list.trans))))
+intr.all = intr.all[width(intr.all) >= 50, ]
 names(intr.all) = NULL
 ##  Retrieving the genomic coordinates of exons with retained introns.
-ex.ri = x[subjectHits(findOverlaps(query = intr.all, subject = x, type = "within")), 0]
+ex.ri = x[subjectHits(findOverlaps(intr.all, x, type = "within")), 0]
 ##  Retrieving the genomic coordinates of internal exons.
 ex.internal = GRangesList(lapply(X = list.trans,
                                  FUN = function(y){y[-c(1, length(y)), 0]}))
 #   Development the final list of internal exons.
 ex.internal = sort(x = unique(x = unlist(x = ex.internal)))
 names(ex.internal) = NULL
+if (length(ex.ri) > 0){
 ex.internal = ex.internal[!ex.internal %in%
-                          subsetByOverlaps(x = ex.internal, ranges = ex.ri, type = "equal"), ]
+                          subsetByOverlaps(ex.internal, ex.ri, type = "equal"), ]
+}
 ##  Retrieving the genomic coordinates of first exon and alternative first exons.
 ex.first = sort(x = unique(x = x[x$exon_number == 1, 0]))
+if (length(ex.ri) > 0){
 ex.first = ex.first[!ex.first %in%
-                    subsetByOverlaps(x = ex.first, ranges = ex.ri, type = "equal"), ]
+                    subsetByOverlaps(ex.first, ex.ri, type = "equal"), ]
+}
 ex.first = ex.first[!ex.first %in%
-                    subsetByOverlaps(x = ex.first, ranges = ex.internal, type = "equal"), ]
+                    subsetByOverlaps(ex.first, ex.internal, type = "equal"), ]
 ex.first = intersect(x = range(ex.first), ex.first)
 if (as.character(strand(ex.first))[1] == "+"){
     ex.first_alter = ex.first[-1, ]
@@ -67,10 +72,12 @@ ex.last = GRangesList(lapply(X = list.trans,
                              FUN = function(y){y[y$exon_number == max(y$exon_number), 0]}))
 ex.last = sort(x = unique(x = unlist(x = ex.last)))
 names(ex.last) = NULL
+if (length(ex.ri) > 0){
 ex.last = ex.last[!ex.last %in%
-                  subsetByOverlaps(x = ex.last, ranges = ex.ri, type = "equal"), ]
+                  subsetByOverlaps(ex.last, ex.ri, type = "equal"), ]
+}
 ex.last = ex.last[!ex.last %in%
-                  subsetByOverlaps(x = ex.last, ranges = ex.internal, type = "equal"), ]
+                  subsetByOverlaps(ex.last, ex.internal, type = "equal"), ]
 ex.last = intersect(x = range(ex.last), ex.last)
 if (as.character(strand(ex.last))[1] == "+"){
     ex.last_alter = ex.last[-length(ex.last), ]
@@ -82,8 +89,14 @@ if (as.character(strand(ex.last))[1] == "+"){
 ##  Development a list of all model exons.
 ex.all = c(ex.first, ex.internal, ex.last)
 ex.all = intersect(x = range(ex.all), ex.all)
+ex.all = ex.all[width(ex.all) >= 14, ]
 ##  Development a list of all model introns.
 intr.all = setdiff(x = range(ex.all), ex.all)
+if (min(width(intr.all)) < 50){
+    ex.all = c(ex.all, intr.all[width(intr.all) < 50, ])
+    ex.all = intersect(x = range(ex.all), ex.all)
+    intr.all = setdiff(x = range(ex.all), ex.all)
+}
 ##  Consolidation of results.
 transcript = GRanges(seqnames = seqnames(ex.all)@values,
                      ranges = IRanges(start = start(ex.all)[1],
