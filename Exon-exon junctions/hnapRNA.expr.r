@@ -1,23 +1,23 @@
 ###################################################################################################
 ##  High-level R function for calculation of hypothetical "non-alternative"                      ##
 ##  precursor RNA based on experimentally determined expression level of exons.                  ##
-##  (c) GNU GPL Vasily V. Grinev, 2018. grinev_vv[at]bsu.by                                      ##
+##  (c) GNU GPL Vasily V. Grinev, 2018-2019. grinev_vv[at]bsu.by                                 ##
 ###################################################################################################
+### It is experimental function without a guarantee of proper operation.
 ### Arguments of function:
-##  in.gtf - path to folder and name of the file in GTF/GFF format containing expression data
-#   on transcripts for gene(-s) of interest. It is typically Cufflinks output file.
-##  expr - name of column (in GTF/GFF file) containing quantitative expression data.
-hnapRNA.expr = function(in.gtf, expr){
+##  d.work - character string giving the path to and name of work directory.
+##  f.expr - character string giving the name of file in GTF/GFF format containing expression data
+#            on transcripts for gene(-s) of interest. It is typically Cufflinks output file.
+#   format - format of file with expression data. Default value is "gtf".
+##  expr   - name of column (in GTF/GFF file) containing quantitative expression data.
+hnapRNA.expr = function(d.work, f.expr, format = "gtf", expr){
 ##  Loading of required auxiliary library.
-#   This code was successfully tested with library rtracklayer v.1.38.3 (or higher).
-if (!suppressMessages(require(rtracklayer))){
-    source("http://bioconductor.org/biocLite.R")
-    biocLite("rtracklayer")
-}
+#   This code was successfully tested with library rtracklayer v.1.38.3.
+suppressMessages(require(rtracklayer))
 ##  Loading and sub-setting of input data.
-in.gtf = import(con = in.gtf, format = "gtf")
+in.gtf = import(con = paste(d.work, f.expr, sep = "/"), format = format)
 in.gtf = in.gtf[in.gtf$type == "exon", ]
-##  Transforming a GRanges object into GRangesList object.
+##  Transforming of a GRanges object into GRangesList object.
 gene.list = makeGRangesListFromDataFrame(df = as.data.frame(x = in.gtf),
                                          split.field = "gene_id",
                                          keep.extra.columns = TRUE)
@@ -162,12 +162,3 @@ hnapRNAs$gene_id = gene.names
 hnapRNAs$transcript_id = paste(hnapRNAs$gene_id, "hnapRNA", sep = ".")
 return(hnapRNAs)
 }
-### A simple example of function use.
-#   source("http://bio.bsu.by/genetics/files/hnaprna.expr.r")
-#   in.gtf = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, total RNA-Seq, Cufflinks-Salmon transcripts.gtf"
-#   expr = "TPM_NC"
-#   res = hnapRNA.expr(in.gtf = in.gtf, expr = expr)
-res = hnapRNA.expr(in.gtf = in.gtf, expr = expr)
-export(object = res,
-       con = "D:/Vasily Grinev/RUNX1-RUNX1T1 project, expression-based hnapRNA of the RUNX1-RUNX1T1 oncogene.gtf",
-       format = "gtf")
