@@ -1,7 +1,7 @@
 ###################################################################################################
 ## High-level R function for classification of exon-exon junctions                               ##
 ## according to modes (or types) of alternative splicing.                                        ##
-## (c) GNU GPL Vasily V. Grinev, 2019. grinev_vv[at]bsu.by                                       ##
+## (c) GNU GPL Vasily V. Grinev & Ilia M. Ilyushonak, 2019. grinev_vv[at]bsu.by                  ##
 ###################################################################################################
 ### Arguments of functios:
 ##  models.hmRNA - path to folder and name of the GTF/GFF file with models of
