@@ -1,7 +1,7 @@
 ###################################################################################################
 ##  High-level R function for calculation of hypothetical "non-alternative"                      ##
 ##  precursor RNA based on reference annotations of RNAs for gene(-s) of interest.               ##
-##  (c) GNU GPL Vasily V. Grinev, 2017-2020. grinev_vv[at]bsu.by                                 ##
+##  (c) GNU GPL Vasily V. Grinev & Ilia M. Ilyushonak, 2017-2020. grinev_vv[at]bsu.by            ##
 ###################################################################################################
 ### Arguments of function:
 ##  d.work - character string giving the path to and name of work directory.
