@@ -1,7 +1,7 @@
 ###################################################################################################
 ## High-level R function for calculation of overall statistics                                   ##
 ## on splicing modes of exon-exon junctions.                                                     ##
-## (c) GNU GPL Vasily V. Grinev, 2019. grinev_vv[at]bsu.by                                       ##
+## (c) GNU GPL Vasily V. Grinev & Ilia M. Ilyushonak, 2019. grinev_vv[at]bsu.by                  ##
 ###################################################################################################
 ### Arguments of function:
 ##  x - path to folder and name of the TAB file with modes of exon-exon junctions. It is typically
