@@ -170,16 +170,3 @@ annotateCircRNAnewPeptides <- function(newPepts,
     ### Returning of the final results.
     return(ms_pepts)
 }
-
-setwd(dir="D:/Vasily Grinev")
-newPepts="AML proteome, Kasumi-1, siMM for 3 days, #1, circRNA proteins, new peptides, sequences.fasta"
-msProts="AML proteome, Kasumi-1, siMM for 3 days, #1, circRNA proteins, sequences.fasta"
-msPepts="AML proteome, Kasumi-1, siMM for 3 days, #1, circRNA proteins, MS peptides, annotations.txt"
-workDir="D:/Vasily Grinev"
-res <- annotateCircRNAnewPeptides(newPepts=newPepts, msProts=msProts, msPepts=msPepts, workDir=workDir)
-write.table(x=res,
-            file="AML proteome, Kasumi-1, siMM for 3 days, #1, circRNA proteins, new peptides, annotations.txt",
-            sep="\t",
-            quote=FALSE,
-            col.names=TRUE,
-            row.names=FALSE)
