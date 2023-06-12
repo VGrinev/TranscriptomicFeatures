@@ -1,0 +1,38 @@
+###############################################################################
+##  A set of scripts for annotation-free and/or annotation-based assembly of ##
+##  individual transcriptomes with StringTie, merging of individual          ##
+##  transcriptomes into one consolidated set of transcripts, comparing       ##
+##  assembled transcripts to the reference transcripts, and analysis of the  ##
+##  differential expression of transcripts and genes.                        ##
+##  Last updated: June 12, 2023.                                             ##
+##  (c) GNU GPL Vasily V. Grinev, 2022-2023. grinev_vv[at]bsu.by             ##
+###############################################################################
+
+##  Work directory.
+cd /mnt/data/grinev
+
+##  Annotation-free assembling of individual transcriptomes with StringTie.
+stringtie -v /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316401.bam -f 0.05 -p 28 -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316401/GSM1316401.gtf
+
+##  Annotation-based assembling of individual transcriptomes with StringTie.
+stringtie -v /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316401.bam -G /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf -f 0.05 -p 28 -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316401/GSM1316401.gtf
+stringtie -v /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316402.bam -G /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf -f 0.05 -p 28 -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316402/GSM1316402.gtf
+stringtie -v /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316403.bam -G /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf -f 0.05 -p 28 -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316403/GSM1316403.gtf
+stringtie -v /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316404.bam -G /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf -f 0.05 -p 28 -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316404/GSM1316404.gtf
+stringtie -v /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316405.bam -G /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf -f 0.05 -p 28 -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316405/GSM1316405.gtf
+stringtie -v /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316406.bam -G /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf -f 0.05 -p 28 -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316406/GSM1316406.gtf
+
+##  Merging all transcripts from the different samples.
+stringtie --merge -p 28 -G /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf -f 0.05 -i /mnt/data/grinev/kasumi_stringtie_mergelist.txt
+
+##  Comparing of the assembled transcripts to known transcripts.
+export PATH=$PATH:/home/grinev/gffcompare
+gffcompare -r /mnt/data/grinev/Files_GTF/Ensembl_GRCh38.p7_release.85.gtf /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf
+
+##  Estimating the abundance of assembled transcripts.
+stringtie -v -e -B -p 28 -G /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316401/GSM1316401.gtf /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316401.bam
+stringtie -v -e -B -p 28 -G /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316402/GSM1316402.gtf /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316402.bam
+stringtie -v -e -B -p 28 -G /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316403/GSM1316403.gtf /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316403.bam
+stringtie -v -e -B -p 28 -G /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316404/GSM1316404.gtf /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316404.bam
+stringtie -v -e -B -p 28 -G /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316405/GSM1316405.gtf /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316405.bam
+stringtie -v -e -B -p 28 -G /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/Kasumi_Transcriptome_StringTie.gtf -o /mnt/data/grinev/Files_Transcriptomes/Kasumi/StringTie/GSM1316406/GSM1316406.gtf /mnt/data/grinev/Files_BAM/AML_t_8_21/Kasumi/GSM1316406.bam
