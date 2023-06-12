@@ -1,1 +1,42 @@
+###############################################################################
+##  A set of scripts for annotation-based assembly of individual             ##
+##  transcriptomes with Cufflinks, merging of individual transcriptomes into ##
+##  one consolidated set of transcripts and analysis of the differential     ##
+##  expression of transcripts and genes.                                     ##
+##  Last updated: June 12, 2023.                                             ##
+##  (c) GNU GPL Vasily V. Grinev, 2018-2023. grinev_vv[at]bsu.by             ##
+###############################################################################
 
+##  Setting of new environment after installation of Cufflinks.
+nano ~/.profile
+export PATH=$PATH:/home/hmglab/GVV/Tools/cufflinks-2.2.1.Linux_x86_64
+echo $PATH
+
+##  Testing of Cufflinks with reference file.
+cd /home/hmglab/GVV/cufflinks
+chmod u+x cufflinks
+chmod u+x cuffmerge
+chmod u+x cuffquant
+chmod u+x gffread
+chmod u+x gtf_to_sam
+chmod u+x cuffcompare
+chmod u+x cuffdiff
+cufflinks ./test_data.sam
+
+##  Creation a multifasta file with reference genome.
+chmod +x twoBitToFa
+./twoBitToFa GRCh38.2bit GRCh38.fa
+
+##  Assembling of transcriptomes with Cufflinks.
+cufflinks -F 0.05 -p 8 -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -o /home/hmglab/GVV/NSL/NC_S1 /home/hmglab/GVV/Files_BAM/NC_S1.bam
+cufflinks -F 0.05 -p 8 -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -o /home/hmglab/GVV/NSL/NC_S2 /home/hmglab/GVV/Files_BAM/NC_S2.bam
+cufflinks -F 0.05 -p 8 -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -o /home/hmglab/GVV/NSL/NC_S3 /home/hmglab/GVV/Files_BAM/NC_S3.bam
+cufflinks -F 0.05 -p 8 -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -o /home/hmglab/GVV/NSL/KAT8_S1 /home/hmglab/GVV/Files_BAM/KAT8_S1.bam
+cufflinks -F 0.05 -p 8 -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -o /home/hmglab/GVV/NSL/KAT8_S2 /home/hmglab/GVV/Files_BAM/KAT8_S2.bam
+cufflinks -F 0.05 -p 8 -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -o /home/hmglab/GVV/NSL/KAT8_S3 /home/hmglab/GVV/Files_BAM/KAT8_S3.bam
+
+##  Merge of GTF files with Cuffmerge.
+cuffmerge -p 8 -s /home/hmglab/GVV/Files_FASTA/GRCh38.fa -g /home/hmglab/GVV/Files_GTF/Ensembl85.gtf -o /home/hmglab/GVV/NSL/Transcriptome /home/hmglab/GVV/assembly_list.txt
+
+##  Analysis of differential expression of transcripts and genes with Cuffdiff.
+cuffdiff -v -FDR 0.05 -p 8 /home/hmglab/GVV/Transcriptomes/KANSL2/merged.gtf \/home/hmglab/GVV/Files_BAM/NC_S1.bam,/home/hmglab/GVV/Files_BAM/NC_S2.bam,/home/hmglab/GVV/Files_BAM/NC_S3.bam \/home/hmglab/GVV/Files_BAM/KANSL2_S1.bam,/home/hmglab/GVV/Files_BAM/KANSL2_S2.bam,/home/hmglab/GVV/Files_BAM/KANSL2_S3.bam -o /home/hmglab/GVV/Transcriptomes/KANSL2 -L NC,KANSL2 -b /home/hmglab/GVV/Files_FASTA/GRCh38.fa -M /home/hmglab/GVV/Files_GTF/mask_Ensembl85.gtf
