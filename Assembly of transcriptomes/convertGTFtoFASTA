@@ -50,3 +50,4 @@ convertGTFtoFASTA <- function(gtf,
     ### Returning of the final object of class DNAStringSet.
     return(tr_seq)
 }
+
