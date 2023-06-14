@@ -50,7 +50,3 @@ convertGTFtoFASTA <- function(gtf,
     ### Returning of the final object of class DNAStringSet.
     return(tr_seq)
 }
-res <- convertGTFtoFASTA(gtf="Kasumi-1, transcriptome, StringTie, filtered.gtf",
-                         format="gtf",
-                         genome="BSgenome.Hsapiens.UCSC.hg38", 
-                         workDir="D:/Vasily Grinev")
