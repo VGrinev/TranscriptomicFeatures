@@ -1,20 +1,35 @@
-#' Predict the true ORFs in circular RNA molecules
-#' @description Predict the true ORFs in circular RNAs.
-#' @param circRNAs character string giving the name of file with the sequences
-#'     of circular RNAs. This file must be in the working directory. Allowed
-#'     file formats are "fasta" or "fa".
-#' @param orf_length_thr integer value giving the threshold for minimal length
-#'     of ORF(-s). Default value is 42.
-#' @param model character string giving the connection or full path to the file
-#'     from which the classification model is read. Use default NULL value to 
-#'     use default model from system extdata.
-#' @param pr_thr probability threshold for the "winning" class of ORFs.
-#'     The default value is NULL, which means that for a given circular RNA
-#'     molecule, any ORF with the maximum probability value will be selected.
+#' Find all upstream open reading frames in mRNA molecule(-s)
+#' @description Finding all variants of the upstream open reading frames in
+#'     mRNA molecule(-s).
+#' @param tr character string giving the name of file with the sequence(-s) of
+#'     the mRNA molecule(-s). This file must be in the working directory.
+#'     Allowed file formats are "fasta" or "fa".
+#' @param orfs character string giving the name of tab-delimited TXT file with
+#'     coordinates of main open reading frame(-s). It is usually the output of
+#'     the function findAllORFs(). This file must be in the working directory.
+#'     Allowed file format is "txt". This file should include at least four
+#'     mandatory fields:
+#'     i) transcript_id - ID of sequence;
+#'     ii) orf_start    - start coordinate of open reading frame in a sequence;
+#'     iii) orf_end     - end coordinate of open reading frame in a sequence;
+#'     iv) orf_prob     - probability that given open reading frame is true
+#'                        open reading frame.
+#' @param prThr probability threshold for the "winning" class of main open
+#'     reading frame(-s). The default value is 0.9.
 #' @param workDir character string giving the path to and name of work
 #'     directory. NULL by default that means the current working directory.
-#' @return The coordinates and sequences of ORFs in circular RNAs of interest.
-
+#' @return list containing data frame and object of class DNAStringSet. The
+#'     data frame includes six fields:
+#'     i) sequence_id   - ID of sequence;
+#'     ii) orf_id       - ID of upstream open reading frame;
+#'     iii) orf_start   - start coordinate of upstream open reading frame in a
+#'                        sequence;
+#'     iv) orf_end      - end coordinate of upstream open reading frame in a
+#'                        sequence;
+#'     v) prf_length    - length of upstream open reading frame;
+#'     vi) orf_sequence - sequence of upstream open reading frame.
+#'     DNAStringSet object contains the sequence(-s) of identified variant(-s)
+#'     of upstream open reading frame(-s).
 #' @authors Vasily V. Grinev
 #' @examples
 #' tr <- "Kasumi-1, transcriptome, StringTie, filtered, alternative assemblies.fasta"
@@ -24,7 +39,7 @@
 #'                      prThr=0.9,
 #'                      workDir="D:/Vasily Grinev")
 #' @export
-#' Last updated: June 21, 2023.
+#' Last updated: July 17, 2023.
 
 findUpstrORFs <- function(tr,
                           orfs,
@@ -65,7 +80,6 @@ findUpstrORFs <- function(tr,
     coordORFs <- read.table(file=ORFs, header=TRUE, quote="\"", as.is=TRUE)
     coordORFs <- coordORFs[coordORFs$orf_prob >= prThr, ]
     coordORFs <- coordORFs[order(x=coordORFs$transcript_id), ]
-
     tr_start <- unlist(x=vmatchPattern(pattern="ATG", subject=trans))
     tr_start <- data.frame(tr_start)
     tr_start <- tr_start[, c(4, 1:2)]
@@ -159,42 +173,3 @@ findUpstrORFs <- function(tr,
     ### Returning the final object.
     return(uORFs)
 }
-
-tr <- "Kasumi-1, transcriptome, StringTie, filtered, all transcripts.fasta"
-orfs <- "Kasumi-1, transcriptome, StringTie, filtered, all transcripts, ORFs.txt"
-res <- findUpstrORFs(tr=tr,
-                     orfs=orfs,
-                     prThr=0.9,
-                     workDir="D:/Vasily Grinev")
-setwd(dir="D:/Vasily Grinev")
-write.table(x=res$uORFs,
-            file="Kasumi-1, transcriptome, StringTie, filtered, all transcripts, uORFs.txt",
-            sep="\t",
-            quote=FALSE,
-            col.names=TRUE,
-            row.names=FALSE)
-prob_orfs <- vectorizeORFs(x=res$seqs)
-model <- readRDS(file=file(description="D:/Vasily Grinev/classRFmodel_1.rds"))
-prob_orfs <- predict(object=model, newdata=prob_orfs, type="prob")
-prob_orfs <- data.table(cbind(res$uORFs, prob=prob_orfs[, "3"]))
-true_orfs <- prob_orfs[prob_orfs[, .I[prob == max(x=prob)],
-                                 by=sequence_id]$V1]
-true_orfs <- true_orfs[true_orfs[, .I[orf_length == max(x=orf_length)],
-                                 by=sequence_id]$V1]
-true_orfs <- true_orfs[true_orfs[, .I[orf_start == min(x=orf_start)],
-                                 by=sequence_id]$V1]
-true_orfs <- data.frame(true_orfs)
-true_orfs <- true_orfs[order(x=true_orfs$sequence_id), ]
-true_orfs1 <- prob_orfs[, c(1:2, 7, 3:6)]
-colnames(x=true_orfs1) <- c("transcript_id",
-                           "orf_id",
-                           "orf_prob",
-                           "orf_start", "orf_end", "orf_length",
-                           "orf_sequence")
-rownames(x=true_orfs1) <- NULL
-write.table(x=true_orfs1,
-            file="uorfs.txt",
-            sep="\t",
-            quote=FALSE,
-            col.names=TRUE,
-            row.names=FALSE)
