@@ -1,5 +1,5 @@
-#' Conversion of GTF/GFF annotations into FASTA sequences
-#' @description Convert the GTF/GFF annotations into FASTA sequences.
+#' Convert of GTF/GFF annotations into FASTA sequences
+#' @description Conversion of the GTF/GFF annotations into FASTA sequences.
 #' @param gtf character string giving the name of input file in GTF/GFF format.
 #' @param format format of the input file (typically "gtf" or "gff").
 #' @param genome character string giving the name of BSgenome data package with
@@ -9,9 +9,9 @@
 #' @return DNAStringSet object with FASTA sequences.
 #' @author Vasily V. Grinev
 #' @examples
-#' res <- convertGTFtoFASTA(gtf="Kasumi-1, transcriptome, StringTie, filtered.gtf",
+#' res <- convertGTFtoFASTA(gtf="Kasumi-1, transcriptome, StringTie, primary, no strand.gtf",
 #'                          format="gtf",
-#'                          genome="BSgenome.Hsapiens.UCSC.hg38", 
+#'                          genome="BSgenome.Hsapiens.UCSC.hg38",
 #'                          workDir="D:/Vasily Grinev")
 #' @export
 #' Last updated: June 14, 2023.
