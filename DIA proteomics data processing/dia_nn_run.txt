@@ -1,0 +1,40 @@
+###############################################################################
+##  A set of scripts for DIA proteomics data processing.                     ##
+##  Last updated: July 17, 2023.                                             ##
+##  (c) GNU GPL Vasily V. Grinev, 2022-2023. grinev_vv[at]bsu.by             ##
+###############################################################################
+
+##  Work directory.
+cd /mnt/data/grinev
+
+source /home/grinev/.bashrc
+
+## Conversion of .raw format to .mzML format by ThermoRawFileParser.
+thermorawfileparser -i /mnt/data/grinev/Files_RAW/Kasumi_siMM_6d_1.raw \
+                    -o /mnt/data/grinev/proteomics \
+                    -f 2 \
+                    -m 1 \
+
+## Command for DIA-NN launch.
+sudo /usr/diann/1.8.1/diann-1.8.1 \
+     --lib "" --fasta-search --predictor --fasta /mnt/data/grinev/human_proteome.fasta \
+     --cut K*,R*,!*P --missed-cleavages 1 \
+     --met-excision --var-mods 0 \
+     --min-pep-len 7 --max-pep-len 30 \
+     --min-pr-charge 1 --max-pr-charge 4 \
+     --min-pr-mz 300 --max-pr-mz 1800 \
+     --min-fr-mz 200 --max-fr-mz 1800 \
+     --duplicate-proteins \
+     --gen-spec-lib --dir /mnt/data/grinev/proteomics \
+     --quick-mass-acc \
+     --pg-level 2 \
+     --peak-center --nn-single-seq \
+     --window 0 \
+     --smart-profiling --no-norm \
+     --qvalue 0.05 \
+     --matrices \
+     --reanalyse \
+     --out /mnt/data/grinev/Reports/kasumi_6d_fdr5.tsv \
+     --out-lib /mnt/data/grinev/Reports/kasumi_6d_fdr5-lib.tsv \
+     --threads 28 \
+     --verbose 1 \
