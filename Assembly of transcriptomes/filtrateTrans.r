@@ -32,8 +32,8 @@
 #' @return an object of class GRanges containing filtered transcripts.
 #' @author Vasily V. Grinev
 #' @examples
-#' fpkmData="Kasumi-1 StringTie-based transcriptome, primary set of transcripts.txt"
-#' res <- filtrateTrans(gtf="Kasumi-1 StringTie-based transcriptome.gtf",
+#' fpkmData="Kasumi-1, transcriptome, StringTie, primary set of transcripts.txt"
+#' res <- filtrateTrans(gtf="Kasumi-1, transcriptome, StringTie, primary.gtf",
 #'                      format="gtf",
 #'                      unstr=TRUE,
 #'                      difStr=TRUE,
