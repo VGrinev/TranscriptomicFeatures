@@ -1,5 +1,5 @@
 #' Translate retained introns to peptide sequences
-#' @description Translation of the retained introns into peptide sequences.
+#' @description Translation of the retained introns to peptide sequences.
 #' @param RIs character string giving the name of tab-delimited TXT file with
 #'     genomic coordinates of retained introns. This file should include four
 #'     mandatory fields:
@@ -24,7 +24,7 @@
 #' workDir <- "D:/Vasily Grinev"
 #' prot_seq_RIs <- translateRIs(RIs=RIs, codones=codones, workDir=workDir)
 #' @export
-#' Last updated: July 14, 2023.
+#' Last updated: January 25, 2023.
 
 translateRIs <- function(RIs,
                          genome="BSgenome.Hsapiens.UCSC.hg38",
@@ -77,13 +77,13 @@ translateRIs <- function(RIs,
                                      prt <- sapply(X=seq(from=1,
                                                          to=nchar(x=y) - 3,
                                                          by=3),
-                                            FUN=function(z){substr(x=y,
-                                                            start=z,
-                                                            stop=z + 2)
-                                            }
-                                     )
+                                                   FUN=function(z){substr(x=y,
+                                                                          start=z,
+                                                                          stop=z + 2)
+                                                                   }
+                                                   )
                                      prt <- paste(codon_table[match(x=prt,
-                                                       table=codon_table[, 1]),
+                                                                    table=codon_table[, 1]),
                                                   if (aaSymbol == 1){
                                                       4
                                                   }else{
@@ -91,7 +91,7 @@ translateRIs <- function(RIs,
                                                   }],
                                                   collapse="")
                                      }
-    )
+                     )
     aaRIs0 <- AAStringSet(x=unlist(x=aaRIs0), use.names=TRUE)
     aaRIs0 <- AAStringSet(x=gsub(pattern="\\*.+", replacement="", x=aaRIs0))
     aaRIs0 <- aaRIs0[width(x=aaRIs0) >= 20, ]
@@ -101,18 +101,20 @@ translateRIs <- function(RIs,
                                                          to=nchar(x=y) - 3,
                                                          by=3),
                                                    FUN=function(z){substr(x=y,
-                                                                   start=z,
-                                                                   stop=z + 2)
-                                                   })
+                                                                          start=z,
+                                                                          stop=z + 2)
+                                                                   }
+                                                   )
                                      prt <- paste(codon_table[match(x=prt,
-                                                       table=codon_table[, 1]),
+                                                                    table=codon_table[, 1]),
                                                   if (aaSymbol == 1){
                                                       4
                                                   }else{
                                                       3
                                                   }],
                                                   collapse="")
-                     })
+                                     }
+                     )
     aaRIs1 <- AAStringSet(x=unlist(x=aaRIs1), use.names=TRUE)
     aaRIs1 <- AAStringSet(x=gsub(pattern="\\*.+", replacement="", x=aaRIs1))
     aaRIs1 <- aaRIs1[width(x=aaRIs1) >= 20, ]
@@ -122,18 +124,20 @@ translateRIs <- function(RIs,
                                                          to=nchar(x=y) - 3,
                                                          by=3),
                                                    FUN=function(z){substr(x=y,
-                                                                   start=z,
-                                                                   stop=z + 2)
-                                                   })
+                                                                          start=z,
+                                                                          stop=z + 2)
+                                                                   }
+                                                   )
                                      prt <- paste(codon_table[match(x=prt,
-                                                       table=codon_table[, 1]),
+                                                                    table=codon_table[, 1]),
                                                   if (aaSymbol == 1){
                                                       4
                                                   }else{
                                                       3
                                                   }],
                                                   collapse="")
-                     })
+                                     }
+                     )
     aaRIs2 <- AAStringSet(x=unlist(x=aaRIs2), use.names=TRUE)
     aaRIs2 <- AAStringSet(x=gsub(pattern="\\*.+", replacement="", x=aaRIs2))
     aaRIs2 <- aaRIs2[width(x=aaRIs2) >= 20, ]
