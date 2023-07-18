@@ -168,11 +168,3 @@ identifyRSPeptidesFromMS <- function(x,
                 peptides=pr_pepts,
                 annotations=anno))
 }
-
-setwd(dir="D:/Vasily Grinev")
-res <- identifyRSPeptidesFromMS(x="Kasumi-1 proteome, all proteins detected at FDR 5%.txt",
-                                y="Kasumi-1 proteome, June 23, 2023.fasta",
-                                z="Kasumi-1 proteome, June 23, 2023, all specific 8-mers, contigs.txt",
-                                workDir="D:/Vasily Grinev")
-suppressMessages(expr=library(package=Biostrings))
-writeXStringSet(x=res$fragments, filepath="fragments.fasta")
