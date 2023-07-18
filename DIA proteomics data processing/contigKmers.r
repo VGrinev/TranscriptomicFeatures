@@ -85,17 +85,3 @@ contigKmers <- function(x,
     ### Returning the final object.
     return(contigs)
 }
-
-setwd(dir="D:/Vasily Grinev")
-x <- "Kasumi-1 proteome, June 23, 2023.fasta"
-y <- "Kasumi-1 proteome, June 23, 2023, all specific 8-mers.fasta"
-res <- contigKmers(x=x,
-                   y=y,
-                   type="AA",
-                   workDir="D:/Vasily Grinev")
-write.table(x=res,
-            file="Kasumi-1 proteome, June 23, 2023, all specific 8-mers, contigs.txt",
-            sep="\t",
-            quote=FALSE,
-            col.names=TRUE,
-            row.names=FALSE)
