@@ -85,31 +85,3 @@ extractKmer <- function(x,
     ### Returning the final object.
     return(mers)
 }
-
-setwd(dir="D:/Vasily Grinev")
-x <- "AML proteome, Kasumi-1, June 23, 2023.fasta"
-res <- extractKmer(x=x,
-                   type="AA",
-                   k=8,
-                   workDir="D:/Vasily Grinev")
-writeXStringSet(x=res, filepath="AML proteome, Kasumi-1, June 23, 2023, k-mers.fasta")
-
-setwd(dir="/mnt/data/grinev")
-suppressMessages(expr=library(package=Biostrings))
-exper <- readAAStringSet(filepath="AML proteome, Kasumi-1, June 23, 2023, k-mers.fasta")
-ref <- readAAStringSet(filepath="Reference proteome, Homo sapiens, June 23, 2023, k-mers, part 1.fasta")
-exper <- exper[!exper %in% ref, ]
-ref <- readAAStringSet(filepath="Reference proteome, Homo sapiens, June 23, 2023, k-mers, part 2.fasta")
-exper <- exper[!exper %in% ref, ]
-ref <- readAAStringSet(filepath="Reference proteome, Homo sapiens, June 23, 2023, k-mers, part 3.fasta")
-exper <- exper[!exper %in% ref, ]
-ref <- readAAStringSet(filepath="Reference proteome, Homo sapiens, June 23, 2023, k-mers, part 4.fasta")
-exper <- exper[!exper %in% ref, ]
-ref <- readAAStringSet(filepath="Reference proteome, Homo sapiens, June 23, 2023, k-mers, part 5.fasta")
-exper <- exper[!exper %in% ref, ]
-ref <- readAAStringSet(filepath="Reference proteome, Homo sapiens, June 23, 2023, k-mers, part 6.fasta")
-exper <- exper[!exper %in% ref, ]
-
-vmatchPattern(pattern=mer[[1]], subject=prots, algorithm="naive-exact")
-coord <- unlist(matchPDict(pdict=mer, subject=prots[[i]], algorithm="naive-exact"))
-intersect(range(coord), coord)
