@@ -122,14 +122,3 @@ parseBlastPhits <- function(x, pr, workDir=NULL){
     ### Returning of the final results.
     return(full_set)
 }
-
-setwd(dir="D:/Vasily Grinev")
-res <- parseBlastPhits(x="Kasumi-1 proteome, all proteins detected at FDR 5%, validated fragments, all blastp hits.txt",
-                       pr="Kasumi-1 proteome, all proteins detected at FDR 5%, validated fragments.fasta",
-                       workDir="D:/Vasily Grinev")
-write.table(x=res,
-            file="Kasumi-1 proteome, all proteins detected at FDR 5%, validated fragments, the best blastp hits.txt",
-            sep="\t",
-            quote=FALSE,
-            col.names=TRUE,
-            row.names=FALSE)
